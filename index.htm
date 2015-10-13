@@ -3,13 +3,14 @@
 <title>Keyboard Ninja</title>
 <link rel="icon" type="image/png" href="favicon.ico">
 <style>
-body {font-family:Courier}
+body {font-family:Courier; margin:0}
 
 #title {font-size:28}
 #topStats {font-size:28}
 #subtitle {font-size:20; text-decoration:underline}
 
 #belt {padding:4; border:solid 1px #dedede}
+#topBelt {padding:1; width:100%; height:2}
 
 #keyboard span{
  font-size:24;
@@ -30,7 +31,7 @@ body {font-family:Courier}
 #rowZ {margin-left:45}
 
 /* Upgrades */
-#keyPower2, #hireRobot, #hireRobot2 {padding:10; background-color:#efefef; color:#ababab; cursor:pointer; margin-bottom:5}
+#keyPower2, #hireRobot, #hireRobot2 {padding:10; color:#ababab; cursor:pointer; margin-bottom:5}
 #hireRobot2, #script2Count {visibility:hidden}
 
 #keyPowerUp {visibility:hidden; background-color:#efefef; padding-left:8; padding-right:8; float:right}
@@ -39,7 +40,7 @@ body {font-family:Courier}
 #script1Count, #script2Count {font-size:28}
 
 /* Achievements */
-#keyCount10, #keyCount100, #keyCount1K, #keyCount10K, #numbers1, #letters1 {border:1px dotted #565656; padding:5px; visibility:hidden}
+#keyCount10, #keyCount100, #keyCount1K, #keyCount10K, #numbers1, #letters1, #script1x10 {border:1px dotted #565656; padding:5px; visibility:hidden}
 #masterKey {border:1px dotted #565656; padding:5px; visibility:hidden; background-color:black; color:gold; font-weight:bold}
 #yellowBelt {background-color:#F3F781; border:1px dotted #565656; padding:5px; visibility:hidden}
 #goldBelt {background-color:#FACC2E; border:1px dotted #565656; padding:5px; visibility:hidden}
@@ -48,9 +49,13 @@ body {font-family:Courier}
 #blueBelt {background-color:#00BFFF; border:1px dotted #565656; padding:5px; visibility:hidden}
 #purpleBelt {background-color:#9F81F7; border:1px dotted #565656; padding:5px; visibility:hidden}
 #brownBelt {background-color:#8A4B08; border:1px dotted #565656; padding:5px; visibility:hidden}
+#redBelt {background-color:#DF0101; border:1px dotted #565656; padding:5px; visibility:hidden}
+#blackBelt {background-color:#000000; border:1px dotted #565656; padding:5px; visibility:hidden}
+#mBlackBelt {background-color:#000000; border:1px dotted gold; padding:5px; visibility:hidden}
 
-#keyCount10Info, #keyCount100Info, #keyCount1KInfo, #keyCount10KInfo, #numbers1Info, #letters1Info, #yellowBeltInfo, #goldBeltInfo, #orangeBeltInfo, #greenBeltInfo, #blueBeltInfo, #purpleBeltInfo, #brownBeltInfo, #masterKeyInfo {font-style:italic; font-size:12; visibility:hidden; position:absolute; margin-top:30; background-color:#dedede; padding:3}
+#script1x10Info, #keyCount10Info, #keyCount100Info, #keyCount1KInfo, #keyCount10KInfo, #numbers1Info, #letters1Info, #yellowBeltInfo, #goldBeltInfo, #orangeBeltInfo, #greenBeltInfo, #blueBeltInfo, #purpleBeltInfo, #brownBeltInfo, #redBeltInfo, #blackBeltInfo, #mBlackBeltInfo, #masterKeyInfo {font-style:italic; font-size:12; visibility:hidden; position:absolute; margin-top:30; background-color:#dedede; padding:3}
 
+#script1x10:hover #script1x10Info {visibility:visible}
 #keyCount10:hover #keyCount10Info {visibility:visible}
 #keyCount100:hover #keyCount100Info {visibility:visible}
 #keyCount1K:hover #keyCount1KInfo {visibility:visible}
@@ -64,6 +69,9 @@ body {font-family:Courier}
 #blueBelt:hover #blueBeltInfo {visibility:visible}
 #purpleBelt:hover #purpleBeltInfo {visibility:visible}
 #brownBelt:hover #brownBeltInfo {visibility:visible}
+#redBelt:hover #brownBeltInfo {visibility:visible}
+#blackBelt:hover #brownBeltInfo {visibility:visible}
+#mBlackBelt:hover #brownBeltInfo {visibility:visible}
 #masterKey:hover #masterKeyInfo {visibility:visible}
 </style>
 
@@ -89,7 +97,7 @@ var currentBelt = "white";
 var keyPowerAvail = false;
 var keyPowerActive = false;
 var keyBotAvail = false;
-var keyBotActive = false;
+var script1Active = false;
 var script1Cost = 10;
 var script1Count = 0;
 var scriptAutoCount = 0;
@@ -110,21 +118,23 @@ var blackAchievement = false;
 var keys = [];
 for(i=0;i<36;i++) {keys.push(0);}
 
-var beltReq = 1;
-var yellowBeltReq = 1;
-var goldBeltReq = 2;
-var orangeBeltReq = 3;
-var greenBeltReq = 4;
-var blueBeltReq = 5;
-var purpleBeltReq = 6;
-var brownBeltReq = 7;
-var redBeltReq = 8;
-var blackBeltReq = 9;
-var mBlackBeltReq = 10;
+var beltReq = 10;
+var yellowBeltReq = 10;
+var goldBeltReq = 25;
+var orangeBeltReq = 75;
+var greenBeltReq = 150;
+var blueBeltReq = 400;
+var purpleBeltReq = 1000;
+var brownBeltReq = 2500;
+var redBeltReq = 5000;
+var blackBeltReq = 7500;
+var mBlackBeltReq = 10000;
 
 var keyPowerUpReq = 5000;
 
 var randomKey = 0;
+var min = 48;
+var max = 90;
 
 function timer() {timerS = setInterval(oneM,100);}
 
@@ -139,18 +149,6 @@ function oneM() {
 	avgKeyCount = totalKeyCount/36;
 	document.getElementById("avgKeys").innerHTML = Math.ceil(avgKeyCount * 100) / 100;
 	
-	//Key Power Active
-	if (keyPowerActive == true) {
-		document.getElementById("keyPower2").style.backgroundColor = "#ADE781";
-		document.getElementById("keyPowerText").innerHTML = "Keys x2 Activated!";
-		document.getElementById("keyPowerRate").innerHTML = "2/p";
-	}
-	
-	//Key Power Up Available
-	if (keyCarton >= keyPowerUpReq) {
-		document.getElementById("keyPowerUp").style.backgroundColor = "gold";
-	}
-	
 	//Script 1 Available
 	if (keyCarton >= script1Cost) {
 		keyBotAvail = true;
@@ -160,7 +158,7 @@ function oneM() {
 	else {
 		keyBotAvail = false;
 		document.getElementById("hireRobot").style.color = "#ababab";
-		document.getElementById("hireRobot").style.backgroundColor = "#efefef";
+		document.getElementById("hireRobot").style.backgroundColor = "#ffffff";
 	}
 	
 	//10 Key Presses
@@ -197,6 +195,9 @@ function oneM() {
 	}
 	if (letterAchievement == true) {document.getElementById("letters1").style.visibility = "visible";}
 	
+	//Deployed 10 Simple Scripts
+	if (script1Count >= 10) {document.getElementById("script1x10").style.visibility = "visible";}
+	
 	//Check Keys for Belt Upgrade
 	for (i=0; i<36; i++) {
 		if (keys[i] >= beltReq) {
@@ -206,57 +207,120 @@ function oneM() {
 		}
 		//If All Keys Meet Required Belt
 		if (keyBeltUp == 36) {
-			beltReq += 1;
 			keyBeltUp = 0;
 			switch(currentBelt){
 				case "white": 
 					//Activate Yellow Belt
+					beltReq = goldBeltReq;
 					currentBelt = "yellow";
+					manualKeyPress = 2;
+					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
 					document.getElementById("yellowBelt").style.visibility = "visible";
 					document.getElementById("belt").innerHTML = "Yellow Belt";
 					document.getElementById("belt").style.backgroundColor = "#F3F781";
+					document.getElementById("topBelt").style.backgroundColor = "#F3F781";
 					break;
 				case "yellow": 
 					//Activate Gold Belt
+					beltReq = orangeBeltReq;
 					currentBelt = "gold";
+					manualKeyPress = 3;
+					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
 					document.getElementById("goldBelt").style.visibility = "visible";
 					document.getElementById("belt").innerHTML = "Gold Belt";
 					document.getElementById("belt").style.backgroundColor = "#FACC2E";
+					document.getElementById("topBelt").style.backgroundColor = "#FACC2E";
 					break;
 				case "gold":
 					//Activate Orange Belt
+					beltReq = greenBeltReq;
 					currentBelt = "orange";
+					manualKeyPress = 4;
+					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
 					document.getElementById("orangeBelt").style.visibility = "visible";
 					document.getElementById("belt").innerHTML = "Orange Belt";
-					document.getElementById("belt").style.backgroundColor = "#FE9A2E";	
+					document.getElementById("belt").style.backgroundColor = "#FE9A2E";
+					document.getElementById("topBelt").style.backgroundColor = "#FE9A2E";					
 					break;
 				case "orange":
 					//Activate Green Belt
+					beltReq = blueBeltReq;
 					currentBelt = "green";
+					manualKeyPress = 5;
+					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
 					document.getElementById("greenBelt").style.visibility = "visible";
 					document.getElementById("belt").innerHTML = "Green Belt";
 					document.getElementById("belt").style.backgroundColor = "#01DF01";
+					document.getElementById("topBelt").style.backgroundColor = "#01DF01";					
 					break;
 				case "green":
 					//Activate Blue Belt
+					beltReq = purpleBeltReq;
 					currentBelt = "blue";
+					manualKeyPress = 6;
+					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
 					document.getElementById("blueBelt").style.visibility = "visible";
 					document.getElementById("belt").innerHTML = "Blue Belt";
 					document.getElementById("belt").style.backgroundColor = "#00BFFF";	
+					document.getElementById("topBelt").style.backgroundColor = "#00BFFF";
 					break;
 				case "blue":
 					//Activate Purple Belt
+					beltReq = brownBeltReq;
 					currentBelt = "purple";
+					manualKeyPress = 7;
+					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
 					document.getElementById("purpleBelt").style.visibility = "visible";
 					document.getElementById("belt").innerHTML = "Purple Belt";
 					document.getElementById("belt").style.backgroundColor = "#9F81F7";	
+					document.getElementById("topBelt").style.backgroundColor = "#9F81F7";
 					break;
 				case "purple":
 					//Activate Brown Belt
+					beltReq = redBeltReq;
 					currentBelt = "brown";
+					manualKeyPress = 8;
+					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
 					document.getElementById("brownBelt").style.visibility = "visible";
 					document.getElementById("belt").innerHTML = "Brown Belt";
-					document.getElementById("belt").style.backgroundColor = "#8A4B08";	
+					document.getElementById("belt").style.backgroundColor = "#8A4B08";
+					document.getElementById("topBelt").style.backgroundColor = "#8A4B08";					
+					break;
+				case "brown":
+					//Activate Red Belt
+					beltReq = blackBeltReq;
+					currentBelt = "red";
+					manualKeyPress = 9;
+					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
+					document.getElementById("redBelt").style.visibility = "visible";
+					document.getElementById("belt").innerHTML = "Red Belt";
+					document.getElementById("belt").style.backgroundColor = "#DF0101";
+					document.getElementById("topBelt").style.backgroundColor = "#DF0101";					
+					break;
+				case "red":
+					//Activate Black Belt
+					beltReq = mBlackBeltReq;
+					currentBelt = "black";
+					manualKeyPress = 10;
+					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
+					document.getElementById("blackBelt").style.visibility = "visible";
+					document.getElementById("belt").innerHTML = "Black Belt";
+					document.getElementById("belt").style.backgroundColor = "#000000";
+					document.getElementById("belt").style.color = "#FFFFFF";
+					document.getElementById("topBelt").style.backgroundColor = "#000000";					
+					break;
+				case "black":
+					//Activate Master Black Belt
+					currentBelt = "mBlack";
+					manualKeyPress = 11;
+					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
+					document.getElementById("mBlackBelt").style.visibility = "visible";
+					document.getElementById("belt").innerHTML = "Master Black Belt";
+					document.getElementById("belt").style.backgroundColor = "#000000";
+					document.getElementById("belt").style.color = "#FFFFFF";
+					document.getElementById("belt").style.borderColor = "#FACC2E";
+					document.getElementById("topBelt").style.backgroundColor = "#000000";	
+					document.getElementById("topBelt").style.borderColor = "#FACC2E";					
 					break;
 			}
 		}
@@ -359,11 +423,9 @@ function keyPressed(e) {
 document.addEventListener("keyup", keyUnpressed, false);
 
 function keyUnpressed(e) {
-	if (e > 47) {
-		var keyCode = e;
-	} else {
-		var keyCode = e.keyCode;
-	}	
+
+	if (e > 47) {var keyCode = e;} 
+	else {var keyCode = e.keyCode;}	
 	
 	switch(keyCode) {
 		//row1
@@ -536,30 +598,52 @@ function keyPower() {
 //Activate Script
 function timerStartBot() {
 	if (keyBotAvail == true) {
+		//Update Key Bin
 		keyCarton -= script1Cost;
 		document.getElementById("keyCarton").innerHTML = keyCarton;
+		
+		//Update Scripts Per Second
 		scriptAutoCount += 1;
+		document.getElementById("keyBotRate").innerHTML = scriptAutoCount + "/s";
+		
+		if (scriptAutoCount == 3) {
+			document.getElementById("hireRobot2").style.visibility = "visible";
+			document.getElementById("script2Count").style.visibility = "visible";
+		}
+		
+		//Update Number of Scripts Active and Cost
 		script1Count += 1;
 		document.getElementById("script1Count").innerHTML = script1Count;
 		script1Cost *= 2.5;
 		document.getElementById("script1Cost").innerHTML = Math.ceil(script1Cost * 100) / 100;
-		if (keyBotActive == false) {
-			timerSB = setInterval(keyBot,1000);
+		
+		if (script1Active == false) {
+			timerSB = setInterval(runScript,1000);
 		}
-		keyBotActive = true;
+		script1Active = true;
 	}
 }
-function keyBot() {
-	keyCarton += scriptAutoCount;
-	document.getElementById("keyBotRate").innerHTML = scriptAutoCount + "/s";
+
+function runScript() {
+	do {
+		randomKey = Math.floor(Math.random() * (max + 1 - min) + min);
+	}
+	while (randomKey == 58 || randomKey == 59 || randomKey == 60 || randomKey == 61 || randomKey == 62 || randomKey == 63 || randomKey == 64);
+	
+	for (i=0; i<scriptAutoCount; i++) {
+		keyUnpressed(randomKey);
+	}
+	
 	document.getElementById("keyCarton").innerHTML = keyCarton;
 }
-//End Activate KeyBot
+//End Activate Script
 
 </script>
 </head>
 
 <body onLoad="timer()">
+
+<div id="topBelt">&nbsp;</div>
 
 <table width="100%" border="0" cellpadding="20">
 <tr>
@@ -658,11 +742,11 @@ function keyBot() {
 <p>
 <span id="belt">White Belt</span>
 <p>
+Keys Per Press: <span id="keysPerPress">1</span><br>
+Scripts: <span id="keyBotRate">0/s</span>
+<p>
 Total Keys Pressed: <span id="totalKeys">0</span><br>
 Average Key Count: <span id="avgKeys">0</span>
-<p>
-Keys Per Press: <span id="keyPowerRate">1</span><br>
-Scripts: <span id="keyBotRate">0/s</span>
 <p>
 Key Counts<br>
 	<table width="100%">
@@ -737,18 +821,27 @@ Key Counts<br>
 <span id="blueBelt"><span id="blueBeltInfo">Earned blue belt</span> &nbsp;&nbsp;</span>
 <span id="purpleBelt"><span id="purpleBeltInfo">Earned purple belt</span> &nbsp;&nbsp;</span>
 <span id="brownBelt"><span id="brownBeltInfo">Earned brown belt</span> &nbsp;&nbsp;</span>
+<span id="redBelt"><span id="redBeltInfo">Earned red belt</span> &nbsp;&nbsp;</span>
+<span id="blackBelt"><span id="blackBeltInfo">Earned black belt</span> &nbsp;&nbsp;</span>
+<span id="mBlackBelt"><span id="mBlackBeltInfo">Earned master black belt</span> &nbsp;&nbsp;</span>
 <span id="masterKey"><span id="masterKeyInfo" style="color:black; font-weight:normal">Earned one master black belt key</span> Mk</span>
+<p>
+<span id="script1x10"><span id="script1x10Info">Deployed 10 Simple Scripts</span> S1x10</span>
 
 </td>
 <td>
 <span id="subtitle">Legend:</span>
 <p>
-Yellow Belt: 10<br>
-Gold Belt: 50<br>
-Orange Belt: 200<br>
-Green Belt: 500<br>
-Blue Belt: 1000<br>
-Purple Belt: 2000<br>
+Yellow: 10<br>
+Gold: 50<br>
+Orange: 200<br>
+Green: 500<br>
+Blue: 1000<br>
+Purple: 2000<br>
+Brown: 5000<br>
+Red: 7500<br>
+Black: 10000<br>
+Master Black: 25000<br>
 </td>
 </tr>
 </table>
