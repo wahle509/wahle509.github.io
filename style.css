@@ -1,0 +1,67 @@
+body {font-family:Courier; margin:0}
+
+#title {font-size:28}
+#topStats {font-size:28}
+#subtitle {font-size:20; text-decoration:underline}
+
+#belt {padding:4; border:solid 1px #dedede}
+#topBelt {padding:1; width:100%; height:2}
+
+#keyboard span{
+ font-size:24;
+ box-shadow:3px 3px 1px #ababab;
+ padding-top:2;
+ padding-left:5;
+ padding-right:24;
+ padding-bottom:18;
+ border-radius:4px;
+ border:2px solid #dedede;
+ margin-right:-3px;
+ }
+#keyboard div {margin-bottom:30}
+
+#row1 {}
+#rowQ {margin-left:15}
+#rowA {margin-left:30}
+#rowZ {margin-left:45}
+
+/* Upgrades */
+#keyPower2, #hireRobot, #hireRobot2 {padding:10; color:#ababab; cursor:pointer; margin-bottom:5}
+#hireRobot2, #script2Count {visibility:hidden}
+
+#script1Count, #script2Count {font-size:28}
+
+/* Achievements */
+#keyCount10, #keyCount100, #keyCount1K, #keyCount10K, #numbers1, #letters1, #script1x10 {border:1px dotted #565656; padding:5px; visibility:hidden}
+#masterKey {border:1px dotted #565656; padding:5px; visibility:hidden; background-color:black; color:gold; font-weight:bold}
+#yellowBelt {background-color:#F3F781; border:1px dotted #565656; padding:5px; visibility:hidden}
+#goldBelt {background-color:#FACC2E; border:1px dotted #565656; padding:5px; visibility:hidden}
+#orangeBelt {background-color:#FE9A2E; border:1px dotted #565656; padding:5px; visibility:hidden}
+#greenBelt {background-color:#01DF01; border:1px dotted #565656; padding:5px; visibility:hidden}
+#blueBelt {background-color:#00BFFF; border:1px dotted #565656; padding:5px; visibility:hidden}
+#purpleBelt {background-color:#9F81F7; border:1px dotted #565656; padding:5px; visibility:hidden}
+#brownBelt {background-color:#8A4B08; border:1px dotted #565656; padding:5px; visibility:hidden}
+#redBelt {background-color:#DF0101; border:1px dotted #565656; padding:5px; visibility:hidden}
+#blackBelt {background-color:#000000; border:1px dotted #565656; padding:5px; visibility:hidden}
+#mBlackBelt {background-color:#000000; border:1px solid gold; padding:5px; visibility:hidden}
+
+#script1x10Info, #keyCount10Info, #keyCount100Info, #keyCount1KInfo, #keyCount10KInfo, #numbers1Info, #letters1Info, #yellowBeltInfo, #goldBeltInfo, #orangeBeltInfo, #greenBeltInfo, #blueBeltInfo, #purpleBeltInfo, #brownBeltInfo, #redBeltInfo, #blackBeltInfo, #mBlackBeltInfo, #masterKeyInfo {font-style:italic; font-size:12; visibility:hidden; position:absolute; margin-top:30; background-color:#dedede; padding:3}
+
+#script1x10:hover #script1x10Info {visibility:visible}
+#keyCount10:hover #keyCount10Info {visibility:visible}
+#keyCount100:hover #keyCount100Info {visibility:visible}
+#keyCount1K:hover #keyCount1KInfo {visibility:visible}
+#keyCount10K:hover #keyCount10KInfo {visibility:visible}
+#numbers1:hover #numbers1Info {visibility:visible}
+#letters1:hover #letters1Info {visibility:visible}
+#yellowBelt:hover #yellowBeltInfo {visibility:visible}
+#goldBelt:hover #goldBeltInfo {visibility:visible}
+#orangeBelt:hover #orangeBeltInfo {visibility:visible}
+#greenBelt:hover #greenBeltInfo {visibility:visible}
+#blueBelt:hover #blueBeltInfo {visibility:visible}
+#purpleBelt:hover #purpleBeltInfo {visibility:visible}
+#brownBelt:hover #brownBeltInfo {visibility:visible}
+#redBelt:hover #redBeltInfo {visibility:visible}
+#blackBelt:hover #blackBeltInfo {visibility:visible}
+#mBlackBelt:hover #mBlackBeltInfo {visibility:visible}
+#masterKey:hover #masterKeyInfo {visibility:visible}
