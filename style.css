@@ -12,24 +12,39 @@ body {font-family:Courier; margin:0}
  box-shadow:3px 3px 1px #ababab;
  padding-top:2;
  padding-left:5;
- padding-right:24;
- padding-bottom:18;
+ padding-right:34;
+ padding-bottom:28;
  border-radius:4px;
  border:2px solid #dedede;
  margin-right:-3px;
  }
 #keyboard div {margin-bottom:30}
 
-#row1 {}
-#rowQ {margin-left:15}
-#rowA {margin-left:30}
-#rowZ {margin-left:45}
+#row1 {padding-bottom:10}
+#rowQ {padding-bottom:10; margin-left:15}
+#rowA {padding-bottom:10; margin-left:30}
+#rowZ {padding-bottom:10; margin-left:45}
+
+#keyboard span span{
+ direction:rtl;
+ width:10px;
+ position:absolute;
+ border:0px;
+ box-shadow:0px 0px 0px #ffffff;
+ margin-top:37;
+ margin-left:16;
+ font-size:15;
+ color:#565656
+}
+
+/* Legend */
+#legendGold , #legendOrange, #legendGreen, #legendBlue, #legendBrown, #legendPurple, #legendRed, #legendBlack, #legendMBlack {visibility:hidden}
 
 /* Upgrades */
-#keyPower2, #hireRobot, #hireRobot2 {padding:10; color:#ababab; cursor:pointer; margin-bottom:5}
-#hireRobot2, #script2Count {visibility:hidden}
+#hireRobot, #hireRobot2 {-moz-user-select: none; padding:10; color:#ababab; cursor:pointer; margin-bottom:5}
+#hireRobot2, #script2Count {-moz-user-select: none; visibility:hidden}
 
-#script1Count, #script2Count {font-size:28}
+#script1Count, #script2Count {-moz-user-select: none; font-size:28}
 
 /* Achievements */
 #keyCount10, #keyCount100, #keyCount1K, #keyCount10K, #numbers1, #letters1, #script1x10 {border:1px dotted #565656; padding:5px; visibility:hidden}

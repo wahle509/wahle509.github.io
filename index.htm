@@ -3,574 +3,10 @@
 <title>Keyboard Ninja</title>
 <link rel="icon" type="image/png" href="favicon.ico">
 <link rel="stylesheet" href="style.css" type="text/css">
-
-<script>
-
-var timerS;
-var timerB;
-var timerSB;
-
-var keyCount = 0;
-var totalKeyCount = 0;
-var avgKeyCount = 0;
-var keyCarton = 0;
-var key;
-var manualKeyPress = 1;
-var keysFormat = 0;
-
-var keyDownColor = "#aaaaaa";
-var keyUpColor = "#dedede";
-
-var currentBelt = "white";
-
-var keyPowerAvail = false;
-var keyPowerActive = false;
-var keyBotAvail = false;
-var script1Active = false;
-var script1Cost = 10;
-var script1Count = 0;
-var scriptAutoCount = 0;
-
-var numAchievement = false;
-var letterAchievement = false;
-var yellowAchievement = false;
-var goldAchievement = false;
-var orangeAchievement = false;
-var greenAchievement = false;
-var blueAchievement = false;
-var purpleAchievement = false;
-var brownAchievement = false;
-var redAchievement = false;
-var blackAchievement = false;
-
-//Array for key counts
-var keys = [];
-for(i=0;i<36;i++) {keys.push(0);}
-
-var beltReq = 10;
-var yellowBeltReq = 10;
-var goldBeltReq = 25;
-var orangeBeltReq = 75;
-var greenBeltReq = 150;
-var blueBeltReq = 400;
-var purpleBeltReq = 1000;
-var brownBeltReq = 2500;
-var redBeltReq = 5000;
-var blackBeltReq = 7500;
-var mBlackBeltReq = 10000;
-
-var keyPowerUpReq = 5000;
-
-var randomKey = 0;
-var min = 48;
-var max = 90;
-
-function timer() {timerS = setInterval(oneM,100);}
-
-function oneM() {
-	document.getElementById("totalKeys").innerHTML = keyCount;
-	
-	//Average Key Count
-	totalKeyCount = 0;
-	for (i=0; i<36; i++) {
-		totalKeyCount += keys[i];
-	}
-	avgKeyCount = totalKeyCount/36;
-	document.getElementById("avgKeys").innerHTML = Math.ceil(avgKeyCount * 100) / 100;
-	
-	//Script 1 Available
-	if (keyCarton >= script1Cost) {
-		keyBotAvail = true;
-		document.getElementById("hireRobot").style.color = "black";
-		document.getElementById("hireRobot").style.backgroundColor = "#BEF781";
-	}
-	else {
-		keyBotAvail = false;
-		document.getElementById("hireRobot").style.color = "#ababab";
-		document.getElementById("hireRobot").style.backgroundColor = "#ffffff";
-	}
-	
-	//10 Key Presses
-	if (keyCount >= 10) {document.getElementById("keyCount10").style.visibility = "visible";}	
-	
-	//100 Key Presses
-	if (keyCount >= 100){document.getElementById("keyCount100").style.visibility = "visible";}
-
-	//1K Key Presses
-	if (keyCount >= 1000){document.getElementById("keyCount1K").style.visibility = "visible";}	
-	
-	//10K Key Presses
-	if (keyCount >= 10000){document.getElementById("keyCount10K").style.visibility = "visible";}
-	
-	//Numbers1 Achievement
-	for (n=0; n<10; n++) {
-		if (keys[n] == 0) {
-			numAchievement = false;
-			break;
-		} else {
-			numAchievement = true;
-		}
-	}	
-	if (numAchievement == true) {document.getElementById("numbers1").style.visibility = "visible";}	
-	
-	//Letters1 Achievement
-	for (l=10; l<36; l++) {
-		if (keys[l] == 0) {
-			letterAchievement = false;
-			break;
-		} else {
-			letterAchievement = true;
-		}
-	}
-	if (letterAchievement == true) {document.getElementById("letters1").style.visibility = "visible";}
-	
-	//Deployed 10 Simple Scripts
-	if (script1Count >= 10) {document.getElementById("script1x10").style.visibility = "visible";}
-	
-	//Check Keys for Belt Upgrade
-	for (i=0; i<36; i++) {
-		if (keys[i] >= beltReq) {
-			keyBeltUp += 1;
-		} else {
-			keyBeltUp = 0;
-		}
-		//If All Keys Meet Required Belt
-		if (keyBeltUp == 36) {
-			keyBeltUp = 0;
-			switch(currentBelt){
-				case "white": 
-					//Activate Yellow Belt
-					beltReq = goldBeltReq;
-					currentBelt = "yellow";
-					manualKeyPress = 2;
-					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
-					document.getElementById("yellowBelt").style.visibility = "visible";
-					document.getElementById("belt").innerHTML = "Yellow Belt";
-					document.getElementById("belt").style.backgroundColor = "#F3F781";
-					document.getElementById("topBelt").style.backgroundColor = "#F3F781";
-					break;
-				case "yellow": 
-					//Activate Gold Belt
-					beltReq = orangeBeltReq;
-					currentBelt = "gold";
-					manualKeyPress = 3;
-					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
-					document.getElementById("goldBelt").style.visibility = "visible";
-					document.getElementById("belt").innerHTML = "Gold Belt";
-					document.getElementById("belt").style.backgroundColor = "#FACC2E";
-					document.getElementById("topBelt").style.backgroundColor = "#FACC2E";
-					break;
-				case "gold":
-					//Activate Orange Belt
-					beltReq = greenBeltReq;
-					currentBelt = "orange";
-					manualKeyPress = 4;
-					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
-					document.getElementById("orangeBelt").style.visibility = "visible";
-					document.getElementById("belt").innerHTML = "Orange Belt";
-					document.getElementById("belt").style.backgroundColor = "#FE9A2E";
-					document.getElementById("topBelt").style.backgroundColor = "#FE9A2E";					
-					break;
-				case "orange":
-					//Activate Green Belt
-					beltReq = blueBeltReq;
-					currentBelt = "green";
-					manualKeyPress = 5;
-					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
-					document.getElementById("greenBelt").style.visibility = "visible";
-					document.getElementById("belt").innerHTML = "Green Belt";
-					document.getElementById("belt").style.backgroundColor = "#01DF01";
-					document.getElementById("topBelt").style.backgroundColor = "#01DF01";					
-					break;
-				case "green":
-					//Activate Blue Belt
-					beltReq = purpleBeltReq;
-					currentBelt = "blue";
-					manualKeyPress = 6;
-					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
-					document.getElementById("blueBelt").style.visibility = "visible";
-					document.getElementById("belt").innerHTML = "Blue Belt";
-					document.getElementById("belt").style.backgroundColor = "#00BFFF";	
-					document.getElementById("topBelt").style.backgroundColor = "#00BFFF";
-					break;
-				case "blue":
-					//Activate Purple Belt
-					beltReq = brownBeltReq;
-					currentBelt = "purple";
-					manualKeyPress = 7;
-					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
-					document.getElementById("purpleBelt").style.visibility = "visible";
-					document.getElementById("belt").innerHTML = "Purple Belt";
-					document.getElementById("belt").style.backgroundColor = "#9F81F7";	
-					document.getElementById("topBelt").style.backgroundColor = "#9F81F7";
-					break;
-				case "purple":
-					//Activate Brown Belt
-					beltReq = redBeltReq;
-					currentBelt = "brown";
-					manualKeyPress = 8;
-					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
-					document.getElementById("brownBelt").style.visibility = "visible";
-					document.getElementById("belt").innerHTML = "Brown Belt";
-					document.getElementById("belt").style.backgroundColor = "#8A4B08";
-					document.getElementById("topBelt").style.backgroundColor = "#8A4B08";					
-					break;
-				case "brown":
-					//Activate Red Belt
-					beltReq = blackBeltReq;
-					currentBelt = "red";
-					manualKeyPress = 9;
-					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
-					document.getElementById("redBelt").style.visibility = "visible";
-					document.getElementById("belt").innerHTML = "Red Belt";
-					document.getElementById("belt").style.backgroundColor = "#DF0101";
-					document.getElementById("topBelt").style.backgroundColor = "#DF0101";					
-					break;
-				case "red":
-					//Activate Black Belt
-					beltReq = mBlackBeltReq;
-					currentBelt = "black";
-					manualKeyPress = 10;
-					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
-					document.getElementById("blackBelt").style.visibility = "visible";
-					document.getElementById("belt").innerHTML = "Black Belt";
-					document.getElementById("belt").style.backgroundColor = "#000000";
-					document.getElementById("belt").style.color = "#FFFFFF";
-					document.getElementById("topBelt").style.backgroundColor = "#000000";					
-					break;
-				case "black":
-					//Activate Master Black Belt
-					currentBelt = "mBlack";
-					manualKeyPress = 11;
-					document.getElementById("keysPerPress").innerHTML = manualKeyPress;
-					document.getElementById("mBlackBelt").style.visibility = "visible";
-					document.getElementById("belt").innerHTML = "Master Black Belt";
-					document.getElementById("belt").style.backgroundColor = "#000000";
-					document.getElementById("belt").style.color = "#FFFFFF";
-					document.getElementById("belt").style.borderColor = "#FACC2E";
-					document.getElementById("topBelt").style.backgroundColor = "#000000";	
-					document.getElementById("topBelt").style.borderColor = "#FACC2E";					
-					break;
-			}
-		}
-	}
-	
-	//Master Key Achievement
-	//if (key1 >= 50 || key2 >= 50 || key3 >= 50 || key4 >= 50 || key5 >= 50 || key6 >= 50 || key7 >= 50 || key8 >= 50 || key9 >= 50 || key0 >= 50 || keyA >= 50 || keyB >= 50 || keyC >= 50 || keyD >= 50 || keyE >= 50 || keyF >= 50 || keyG >= 50 || keyH >= 50 || keyI >= 50 || keyJ >= 50 || keyK >= 50 || keyL >= 50 || keyM >= 50 || keyN >= 50 || keyO >= 50 || keyP >= 50 || keyQ >= 50 || keyR >= 50 || keyS >= 50 || keyT >= 50 || keyU >= 50 || keyV >= 50 || keyW >= 50 || keyX >= 50 || keyY >= 50 || keyZ >= 50) {
-	//	document.getElementById("masterKey").style.visibility = "visible";	
-	//}	
-}
-
-//Keydown Event
-document.addEventListener("keydown", keyPressed, false);
-
-function keyPressed(e) {
-	if (e > 47) {var keyCode = e;} 
-	else {var keyCode = e.keyCode;}	
-	
-	switch(keyCode) {
-		//row1
-		case 49: document.getElementById("1").style.borderColor = keyDownColor;
-			break;
-		case 50: document.getElementById("2").style.borderColor = keyDownColor;
-			break;
-		case 51: document.getElementById("3").style.borderColor = keyDownColor;
-			break;
-		case 52: document.getElementById("4").style.borderColor = keyDownColor;
-			break;
-		case 53: document.getElementById("5").style.borderColor = keyDownColor;
-			break;
-		case 54: document.getElementById("6").style.borderColor = keyDownColor;
-			break;
-		case 55: document.getElementById("7").style.borderColor = keyDownColor;
-			break;
-		case 56: document.getElementById("8").style.borderColor = keyDownColor;
-			break;
-		case 57: document.getElementById("9").style.borderColor = keyDownColor;
-			break;
-		case 48: document.getElementById("0").style.borderColor = keyDownColor;
-			break;
-		//rowQ
-		case 81: document.getElementById("q").style.borderColor = keyDownColor;
-			break;
-		case 87: document.getElementById("w").style.borderColor = keyDownColor;
-			break;
-		case 69: document.getElementById("e").style.borderColor = keyDownColor;
-			break;
-		case 82: document.getElementById("r").style.borderColor = keyDownColor;
-			break;
-		case 84: document.getElementById("t").style.borderColor = keyDownColor;
-			break;
-		case 89: document.getElementById("y").style.borderColor = keyDownColor;
-			break;
-		case 85: document.getElementById("u").style.borderColor = keyDownColor;
-			break;
-		case 73: document.getElementById("i").style.borderColor = keyDownColor;
-			break;
-		case 79: document.getElementById("o").style.borderColor = keyDownColor;
-			break;
-		case 80: document.getElementById("p").style.borderColor = keyDownColor;
-			break;
-		//rowA
-		case 65: document.getElementById("a").style.borderColor = keyDownColor;
-			break;
-		case 83: document.getElementById("s").style.borderColor = keyDownColor;
-			break;
-		case 68: document.getElementById("d").style.borderColor = keyDownColor;
-			break;
-		case 70: document.getElementById("f").style.borderColor = keyDownColor;
-			break;
-		case 71: document.getElementById("g").style.borderColor = keyDownColor;
-			break;
-		case 72: document.getElementById("h").style.borderColor = keyDownColor;
-			break;
-		case 74: document.getElementById("j").style.borderColor = keyDownColor;
-			break;
-		case 75: document.getElementById("k").style.borderColor = keyDownColor;
-			break;
-		case 76: document.getElementById("l").style.borderColor = keyDownColor;
-			break;
-		//rowZ
-		case 90: document.getElementById("z").style.borderColor = keyDownColor;
-			break;
-		case 88: document.getElementById("x").style.borderColor = keyDownColor;
-			break;
-		case 67: document.getElementById("c").style.borderColor = keyDownColor;
-			break;
-		case 86: document.getElementById("v").style.borderColor = keyDownColor;
-			break;
-		case 66: document.getElementById("b").style.borderColor = keyDownColor;
-			break;
-		case 78: document.getElementById("n").style.borderColor = keyDownColor;
-			break;
-		case 77: document.getElementById("m").style.borderColor = keyDownColor;
-			break;
-	}
-}
-	
-//Keyup Event
-document.addEventListener("keyup", keyUnpressed, false);
-
-function keyUnpressed(e) {
-
-	if (e > 47) {var keyCode = e;} 
-	else {var keyCode = e.keyCode;}	
-	
-	switch(keyCode) {
-		//row1
-		case 49: document.getElementById("1").style.borderColor = keyUpColor;
-			keyUp(0, "key1Count", "1");
-			break;
-		case 50: document.getElementById("2").style.borderColor = keyUpColor;
-			keyUp(1, "key2Count", "2");
-			break;
-		case 51: document.getElementById("3").style.borderColor = keyUpColor;
-			keyUp(2, "key3Count", "3");
-			break;
-		case 52: document.getElementById("4").style.borderColor = keyUpColor;
-			keyUp(3, "key4Count", "4");
-			break;
-		case 53: document.getElementById("5").style.borderColor = keyUpColor;
-			keyUp(4, "key5Count", "5");
-			break;
-		case 54: document.getElementById("6").style.borderColor = keyUpColor;
-			keyUp(5, "key6Count", "6");
-			break;
-		case 55: document.getElementById("7").style.borderColor = keyUpColor;
-			keyUp(6, "key7Count", "7");
-			break;
-		case 56: document.getElementById("8").style.borderColor = keyUpColor;
-			keyUp(7, "key8Count", "8");
-			break;
-		case 57: document.getElementById("9").style.borderColor = keyUpColor;
-			keyUp(8, "key9Count", "9");
-			break;
-		case 48: document.getElementById("0").style.borderColor = keyUpColor;
-			keyUp(9, "key0Count", "0");
-			break;
-		//rowQ
-		case 81: document.getElementById("q").style.borderColor = keyUpColor;
-			keyUp(10, "keyQCount", "q");
-			break;
-		case 87: document.getElementById("w").style.borderColor = keyUpColor;
-			keyUp(11, "keyWCount", "w");
-			break;
-		case 69: document.getElementById("e").style.borderColor = keyUpColor;
-			keyUp(12, "keyECount", "e");
-			break;
-		case 82: document.getElementById("r").style.borderColor = keyUpColor;
-			keyUp(13, "keyRCount", "r");
-			break;
-		case 84: document.getElementById("t").style.borderColor = keyUpColor;
-			keyUp(14, "keyTCount", "t");
-			break;
-		case 89: document.getElementById("y").style.borderColor = keyUpColor;
-			keyUp(15, "keyYCount", "y");
-			break;
-		case 85: document.getElementById("u").style.borderColor = keyUpColor;
-			keyUp(16, "keyUCount", "u");
-			break;
-		case 73: document.getElementById("i").style.borderColor = keyUpColor;
-			keyUp(17, "keyICount", "i");
-			break;
-		case 79: document.getElementById("o").style.borderColor = keyUpColor;
-			keyUp(18, "keyOCount", "o");
-			break;
-		case 80: document.getElementById("p").style.borderColor = keyUpColor;
-			keyUp(19, "keyPCount", "p");
-			break;
-		//rowA
-		case 65: document.getElementById("a").style.borderColor = keyUpColor;
-			keyUp(20, "keyACount", "a");
-			break;
-		case 83: document.getElementById("s").style.borderColor = keyUpColor;
-			keyUp(21, "keySCount", "s");
-			break;
-		case 68: document.getElementById("d").style.borderColor = keyUpColor;
-			keyUp(22, "keyDCount", "d");
-			break;
-		case 70: document.getElementById("f").style.borderColor = keyUpColor;
-			keyUp(23, "keyFCount", "f");
-			break;
-		case 71: document.getElementById("g").style.borderColor = keyUpColor;
-			keyUp(24, "keyGCount", "g");
-			break;
-		case 72: document.getElementById("h").style.borderColor = keyUpColor;
-			keyUp(25, "keyHCount", "h");
-			break;
-		case 74: document.getElementById("j").style.borderColor = keyUpColor;
-			keyUp(26, "keyJCount", "j");
-			break;
-		case 75: document.getElementById("k").style.borderColor = keyUpColor;
-			keyUp(27, "keyKCount", "k");
-			break;
-		case 76: document.getElementById("l").style.borderColor = keyUpColor;
-			keyUp(28, "keyLCount", "l");
-			break;
-		//rowZ
-		case 90: document.getElementById("z").style.borderColor = keyUpColor;
-			keyUp(29, "keyZCount", "z");
-			break;
-		case 88: document.getElementById("x").style.borderColor = keyUpColor;
-			keyUp(30, "keyXCount", "x");
-			break;
-		case 67: document.getElementById("c").style.borderColor = keyUpColor;
-			keyUp(31, "keyCCount", "c");
-			break;
-		case 86: document.getElementById("v").style.borderColor = keyUpColor;
-			keyUp(32, "keyVCount", "v");
-			break;
-		case 66: document.getElementById("b").style.borderColor = keyUpColor;
-			keyUp(33, "keyBCount", "b");
-			break;
-		case 78: document.getElementById("n").style.borderColor = keyUpColor;
-			keyUp(34, "keyNCount", "n");
-			break;
-		case 77: document.getElementById("m").style.borderColor = keyUpColor;
-			keyUp(35, "keyMCount", "m");
-			break;
-	}	
-}
-
-function keyUp(keyVar, keySpan, key) {
-	//Increment Key Count
-	keys[keyVar] += manualKeyPress;
-	document.getElementById(keySpan).innerHTML = keys[keyVar];
-	
-	if (keys[keyVar] >= 1000) {
-		keysFormat = Math.ceil((keys[keyVar]/1000) * 100) / 100;
-		document.getElementById(keySpan).innerHTML = keysFormat + "K";
-	}
-		
-	//Change Key to Next Level
-	if (keys[keyVar] >= yellowBeltReq) {document.getElementById(key).style.backgroundColor = "#F3F781";}
-	if (keys[keyVar] >= goldBeltReq) {document.getElementById(key).style.backgroundColor = "#FACC2E";}
-	if (keys[keyVar] >= orangeBeltReq) {document.getElementById(key).style.backgroundColor = "#FE9A2E";}
-	if (keys[keyVar] >= greenBeltReq) {document.getElementById(key).style.backgroundColor = "#01DF01";}
-	if (keys[keyVar] >= blueBeltReq) {document.getElementById(key).style.backgroundColor = "#00BFFF";}
-	if (keys[keyVar] >= purpleBeltReq) {document.getElementById(key).style.backgroundColor = "#9F81F7";}
-	if (keys[keyVar] >= brownBeltReq) {
-		document.getElementById(key).style.backgroundColor = "#8A4B08";
-		document.getElementById(key).style.color = "#ffffff";
-	}
-	if (keys[keyVar] >= redBeltReq) {
-		document.getElementById(key).style.backgroundColor = "#DF0101";
-		document.getElementById(key).style.color = "#ffffff";
-	}
-	if (keys[keyVar] >= blackBeltReq) {
-		document.getElementById(key).style.backgroundColor = "#000000";
-		document.getElementById(key).style.color = "#ffffff";
-	}
-	if (keys[keyVar] >= mBlackBeltReq) {
-		document.getElementById(key).style.fontWeight = "bold"
-		document.getElementById(key).style.color = "gold";
-	}
-	
-	//Total Key Count and Bin
-	keyCount += manualKeyPress;
-	keyCarton += manualKeyPress;
-	document.getElementById("keyCarton").innerHTML = keyCarton;
-}
-
-//Key Power x2
-function keyPower() {
-	if (keyPowerAvail == true && keyPowerActive == false){
-		manualKeyPress += 1;
-		document.getElementById("keyPower2").style.color = "#ababab";
-		document.getElementById("keyPower2").style.backgroundColor = "#dedede";
-		document.getElementById("hireRobot").style.visibility = "visible";
-		keyPowerActive = true;
-		document.getElementById("keyPowerUp").style.visibility = "visible";
-	}
-}
-
-//Activate Script
-function timerStartBot() {
-	if (keyBotAvail == true) {
-		//Update Key Bin
-		keyCarton -= script1Cost;
-		document.getElementById("keyCarton").innerHTML = keyCarton;
-		
-		//Update Scripts Per Second
-		scriptAutoCount += 1;
-		document.getElementById("keyBotRate").innerHTML = scriptAutoCount + "/s";
-		
-		if (scriptAutoCount == 3) {
-			document.getElementById("hireRobot2").style.visibility = "visible";
-			document.getElementById("script2Count").style.visibility = "visible";
-		}
-		
-		//Update Number of Scripts Active and Cost
-		script1Count += 1;
-		document.getElementById("script1Count").innerHTML = script1Count;
-		script1Cost *= 2.5;
-		document.getElementById("script1Cost").innerHTML = Math.ceil(script1Cost * 100) / 100;
-		
-		if (script1Active == false) {
-			timerSB = setInterval(runScript,1000);
-		}
-		script1Active = true;
-	}
-}
-
-function runScript() {
-	do {
-		randomKey = Math.floor(Math.random() * (max + 1 - min) + min);
-	}
-	while (randomKey == 58 || randomKey == 59 || randomKey == 60 || randomKey == 61 || randomKey == 62 || randomKey == 63 || randomKey == 64);
-	
-	for (i=0; i<scriptAutoCount; i++) {
-		keyUnpressed(randomKey);
-	}
-	
-	document.getElementById("keyCarton").innerHTML = keyCarton;
-}
-//End Activate Script
-
-</script>
+<script src="scripts.js"></script>
 </head>
 
-<body onLoad="timer()">
+<body onLoad="start()">
 
 <div id="topBelt">&nbsp;</div>
 
@@ -581,10 +17,6 @@ function runScript() {
 </tr><tr>
 <td valign="top" width="350"><span id="subtitle">Scripts</span>
 	<p>
-	<!-- Moving this functionality to the Belt text -->
-	<!--<div id="keyPower2" onclick="keyPower()">
-		<span id="keyPowerUp" onclick="keyPowerUp()">+</span>
-	</div>-->
 	<table width="100%" border="0">
 	<tr>
 	<td>
@@ -615,51 +47,51 @@ function runScript() {
 <div id="keyboard">
 
 	<div id="row1">
-	<span id="1">1</span>
-	<span id="2">2</span>
-	<span id="3">3</span>
-	<span id="4">4</span>
-	<span id="5">5</span>
-	<span id="6">6</span>
-	<span id="7">7</span>
-	<span id="8">8</span>
-	<span id="9">9</span>
-	<span id="0">0</span>
+	<span id="1">1<span id="key1Count">0</span></span>
+	<span id="2">2<span id="key2Count">0</span></span>
+	<span id="3">3<span id="key3Count">0</span></span>
+	<span id="4">4<span id="key4Count">0</span></span>
+	<span id="5">5<span id="key5Count">0</span></span>
+	<span id="6">6<span id="key6Count">0</span></span>
+	<span id="7">7<span id="key7Count">0</span></span>
+	<span id="8">8<span id="key8Count">0</span></span>
+	<span id="9">9<span id="key9Count">0</span></span>
+	<span id="0">0<span id="key0Count">0</span></span>
 	</div>
 
 	<div id="rowQ">
-	<span id="q">Q</span>
-	<span id="w">W</span>
-	<span id="e">E</span>
-	<span id="r">R</span>
-	<span id="t">T</span>
-	<span id="y">Y</span>
-	<span id="u">U</span>
-	<span id="i">I</span>
-	<span id="o">O</span>
-	<span id="p">P</span>
+	<span id="q">Q<span id="keyQCount">0</span></span>
+	<span id="w">W<span id="keyWCount">0</span></span>
+	<span id="e">E<span id="keyECount">0</span></span>
+	<span id="r">R<span id="keyRCount">0</span></span>
+	<span id="t">T<span id="keyTCount">0</span></span>
+	<span id="y">Y<span id="keyYCount">0</span></span>
+	<span id="u">U<span id="keyUCount">0</span></span>
+	<span id="i">I<span id="keyICount">0</span></span>
+	<span id="o">O<span id="keyOCount">0</span></span>
+	<span id="p">P<span id="keyPCount">0</span></span>
 	</div>
 
 	<div id="rowA">
-	<span id="a">A</span>
-	<span id="s">S</span>
-	<span id="d">D</span>
-	<span id="f">F</span>
-	<span id="g">G</span>
-	<span id="h">H</span>
-	<span id="j">J</span>
-	<span id="k">K</span>
-	<span id="l">L</span>
+	<span id="a">A<span id="keyACount">0</span></span>
+	<span id="s">S<span id="keySCount">0</span></span>
+	<span id="d">D<span id="keyDCount">0</span></span>
+	<span id="f">F<span id="keyFCount">0</span></span>
+	<span id="g">G<span id="keyGCount">0</span></span>
+	<span id="h">H<span id="keyHCount">0</span></span>
+	<span id="j">J<span id="keyJCount">0</span></span>
+	<span id="k">K<span id="keyKCount">0</span></span>
+	<span id="l">L<span id="keyLCount">0</span></span>
 	</div>
 
 	<div id="rowZ">
-	<span id="z">Z</span>
-	<span id="x">X</span>
-	<span id="c">C</span>
-	<span id="v">V</span>
-	<span id="b">B</span>
-	<span id="n">N</span>
-	<span id="m">M</span>
+	<span id="z">Z<span id="keyZCount">0</span></span>
+	<span id="x">X<span id="keyXCount">0</span></span>
+	<span id="c">C<span id="keyCCount">0</span></span>
+	<span id="v">V<span id="keyVCount">0</span></span>
+	<span id="b">B<span id="keyBCount">0</span></span>
+	<span id="n">N<span id="keyNCount">0</span></span>
+	<span id="m">M<span id="keyMCount">0</span></span>
 	</div>
 	
 </div>
@@ -675,59 +107,7 @@ Keys Per Press: <span id="keysPerPress">1</span><br>
 Scripts: <span id="keyBotRate">0/s</span>
 <p>
 Total Keys Pressed: <span id="totalKeys">0</span><br>
-Average Key Count: <span id="avgKeys">0</span>
 <p>
-Key Counts<br>
-	<table width="100%">
-	<tr valign="top">
-	<td>
-		1: <span id="key1Count">0</span><br>
-		2: <span id="key2Count">0</span><br>
-		3: <span id="key3Count">0</span><br>
-		4: <span id="key4Count">0</span><br>
-		5: <span id="key5Count">0</span><br>
-		6: <span id="key6Count">0</span><br>
-		7: <span id="key7Count">0</span><br>
-		8: <span id="key8Count">0</span><br>
-		9: <span id="key9Count">0</span><br>
-		0: <span id="key0Count">0</span><br>
-	</td>
-	<td>
-		Q: <span id="keyQCount">0</span><br>
-		W: <span id="keyWCount">0</span><br>
-		E: <span id="keyECount">0</span><br>
-		R: <span id="keyRCount">0</span><br>
-		T: <span id="keyTCount">0</span><br>
-		Y: <span id="keyYCount">0</span><br>
-		U: <span id="keyUCount">0</span><br>
-		I: <span id="keyICount">0</span><br>
-		O: <span id="keyOCount">0</span><br>
-		P: <span id="keyPCount">0</span><br>
-	</td>
-	<td>
-		A: <span id="keyACount">0</span><br>
-		S: <span id="keySCount">0</span><br>
-		D: <span id="keyDCount">0</span><br>
-		F: <span id="keyFCount">0</span><br>
-		G: <span id="keyGCount">0</span><br>
-		H: <span id="keyHCount">0</span><br>
-		J: <span id="keyJCount">0</span><br>
-		K: <span id="keyKCount">0</span><br>
-		L: <span id="keyLCount">0</span><br>
-	</td>
-	<td>
-		Z: <span id="keyZCount">0</span><br>
-		X: <span id="keyXCount">0</span><br>
-		C: <span id="keyCCount">0</span><br>
-		V: <span id="keyVCount">0</span><br>
-		B: <span id="keyBCount">0</span><br>
-		N: <span id="keyNCount">0</span><br>
-		M: <span id="keyMCount">0</span><br>
-	</td>
-	</tr>
-	</table>
-</td>
-
 </tr>
 <tr>
 <td colspan="2">
@@ -761,18 +141,21 @@ Key Counts<br>
 <td>
 <span id="subtitle">Legend:</span>
 <p>
-Yellow: 10<br>
-Gold: 50<br>
-Orange: 200<br>
-Green: 500<br>
-Blue: 1000<br>
-Purple: 2000<br>
-Brown: 5000<br>
-Red: 7500<br>
-Black: 10000<br>
-Master Black: 25000<br>
+<span id="legendYellow">Yellow: 10</span><br>
+<span id="legendGold">Gold: 25</span><br>
+<span id="legendOrange">Orange: 75</span><br>
+<span id="legendGreen">Green: 150</span><br>
+<span id="legendBlue">Blue: 400</span><br>
+<span id="legendPurple">Purple: 1000</span><br>
+<span id="legendBrown">Brown: 2500</span><br>
+<span id="legendRed">Red: 5000</span><br>
+<span id="legendBlack">Black: 7500</span><br>
+<span id="legendMBlack">Master Black: 10000</span><br>
 </td>
 </tr>
+<tr><td>
+<span id="deleteData" onclick="deleteData()">Hard Reset</span>
+</td></tr>
 </table>
 
 </body>
