@@ -18,7 +18,7 @@ var currentBelt = "white";
 var keyPowerAvail = false;
 var keyPowerActive = false;
 var keyBotAvail = false;
-var script1Active = false;
+var scriptActive = false;
 var script1Cost = 10;
 var script1Count = 0;
 var script2Cost = 250;
@@ -40,6 +40,9 @@ var blackAchievement = false;
 //Array for key counts
 var keys = [];
 for(i=0;i<36;i++) {keys.push(0);}
+
+//Key Objects
+var key1 = {count:0, spanID:"key1Count", code:49, belt:"white"}
 
 var beltReq = 10;
 var yellowBeltReq = 10;
@@ -70,9 +73,11 @@ function saveGame() {
 		keyCount: keyCount,
 		script1Cost: script1Cost,
 		script1Count: script1Count,
+		script2Cost: script2Cost,
+		script2Count: script2Count,
 		manualKeyPress: manualKeyPress,
 		scriptAutoCount: scriptAutoCount,
-		keys1: keys[0],
+		keys1: key1.count,
 		keys2: keys[1],
 		keys3: keys[2],
 		keys4: keys[3],
@@ -81,7 +86,33 @@ function saveGame() {
 		keys7: keys[6],
 		keys8: keys[7],
 		keys9: keys[8],
-		keys0: keys[9]
+		keys0: keys[9],
+		keysQ: keys[10],
+		keysW: keys[11],
+		keysE: keys[12],
+		keysR: keys[13],
+		keysT: keys[14],
+		keysY: keys[15],
+		keysU: keys[16],
+		keysI: keys[17],
+		keysO: keys[18],
+		keysP: keys[19],
+		keysA: keys[20],
+		keysS: keys[21],
+		keysD: keys[22],
+		keysF: keys[23],
+		keysG: keys[24],
+		keysH: keys[25],
+		keysJ: keys[26],
+		keysK: keys[27],
+		keysL: keys[28],
+		keysZ: keys[29],
+		keysX: keys[30],
+		keysC: keys[31],
+		keysV: keys[32],
+		keysB: keys[33],
+		keysN: keys[34],
+		keysM: keys[35]
 	}
 	localStorage.setItem("saveFile", JSON.stringify(saveObj));
 	
@@ -98,9 +129,11 @@ function loadGame() {
 	keyCount = saveObj.keyCount;
 	script1Cost = saveObj.script1Cost;
 	script1Count = saveObj.script1Count;
+	script2Cost = saveObj.script2Cost;
+	script2Count = saveObj.script2Count;
 	manualKeyPress = saveObj.manualKeyPress;
 	scriptAutoCount = saveObj.scriptAutoCount;
-	keys[0] = saveObj.keys1;
+	key1.count = saveObj.keys1;
 	keys[1] = saveObj.keys2;
 	keys[2] = saveObj.keys3;
 	keys[3] = saveObj.keys4;
@@ -110,9 +143,39 @@ function loadGame() {
 	keys[7] = saveObj.keys8;
 	keys[8] = saveObj.keys9;
 	keys[9] = saveObj.keys0;
+	keys[10] = saveObj.keysQ;
+	keys[11] = saveObj.keysW;
+	keys[12] = saveObj.keysE;
+	keys[13] = saveObj.keysR;
+	keys[14] = saveObj.keysT;
+	keys[15] = saveObj.keysY;
+	keys[16] = saveObj.keysU;
+	keys[17] = saveObj.keysI;
+	keys[18] = saveObj.keysO;
+	keys[19] = saveObj.keysP;
+	keys[20] = saveObj.keysA;
+	keys[21] = saveObj.keysS;
+	keys[22] = saveObj.keysD;
+	keys[23] = saveObj.keysF;
+	keys[24] = saveObj.keysG;
+	keys[25] = saveObj.keysH;
+	keys[26] = saveObj.keysJ;
+	keys[27] = saveObj.keysK;
+	keys[28] = saveObj.keysL;
+	keys[29] = saveObj.keysZ;
+	keys[30] = saveObj.keysX;
+	keys[31] = saveObj.keysC;
+	keys[32] = saveObj.keysV;
+	keys[33] = saveObj.keysB;
+	keys[34] = saveObj.keysN;
+	keys[35] = saveObj.keysM;
 	
 	var saveString = JSON.parse(localStorage.getItem("saveStrings"));
 	currentBelt = saveString.currentBelt;
+	
+	if (scriptAutoCount > 0) {
+		timerSB = setInterval(runScript,1000);
+	}
 	
 	displayData();
 }
@@ -123,6 +186,8 @@ function deleteData() {
 	keyCount = 0;
 	script1Cost = 10;
 	script1Count = 0;
+	script2Cost = 250;
+	script2Count = 0;
 	manualKeyPress = 1;
 	scriptAutoCount = 0;
 	for(i=0;i<36;i++) {keys[i] = 0;}
@@ -144,6 +209,14 @@ function deleteData() {
 	
 	//Hide Legend
 	document.getElementById("legendGold").style.visibility = "hidden";
+	document.getElementById("legendOrange").style.visibility = "hidden";
+	document.getElementById("legendGreen").style.visibility = "hidden";
+	document.getElementById("legendBlue").style.visibility = "hidden";
+	document.getElementById("legendPurple").style.visibility = "hidden";
+	document.getElementById("legendBrown").style.visibility = "hidden";
+	document.getElementById("legendRed").style.visibility = "hidden";
+	document.getElementById("legendBlack").style.visibility = "hidden";
+	document.getElementById("legendMBlack").style.visibility = "hidden";
 	
 	displayData();
 }
@@ -154,9 +227,11 @@ function displayData() {
 	document.getElementById("totalKeys").innerHTML = keyCount;
 	document.getElementById("script1Count").innerHTML = script1Count;
 	document.getElementById("script1Cost").innerHTML = script1Cost;
+	document.getElementById("script2Count").innerHTML = script2Count;
+	document.getElementById("script2Cost").innerHTML = script2Cost;
 	document.getElementById("keysPerPress").innerHTML = manualKeyPress;	
 	document.getElementById("keyBotRate").innerHTML = scriptAutoCount + "/s";
-	document.getElementById("key1Count").innerHTML = keys[0];
+	document.getElementById("key1Count").innerHTML = key1.count;
 	document.getElementById("key2Count").innerHTML = keys[1];
 	document.getElementById("key3Count").innerHTML = keys[2];
 	document.getElementById("key4Count").innerHTML = keys[3];
@@ -166,6 +241,32 @@ function displayData() {
 	document.getElementById("key8Count").innerHTML = keys[7];
 	document.getElementById("key9Count").innerHTML = keys[8];
 	document.getElementById("key0Count").innerHTML = keys[9];
+	document.getElementById("keyQCount").innerHTML = keys[10];
+	document.getElementById("keyWCount").innerHTML = keys[11];
+	document.getElementById("keyECount").innerHTML = keys[12];
+	document.getElementById("keyRCount").innerHTML = keys[13];
+	document.getElementById("keyTCount").innerHTML = keys[14];
+	document.getElementById("keyYCount").innerHTML = keys[15];
+	document.getElementById("keyUCount").innerHTML = keys[16];
+	document.getElementById("keyICount").innerHTML = keys[17];
+	document.getElementById("keyOCount").innerHTML = keys[18];
+	document.getElementById("keyPCount").innerHTML = keys[19];
+	document.getElementById("keyACount").innerHTML = keys[20];
+	document.getElementById("keySCount").innerHTML = keys[21];
+	document.getElementById("keyDCount").innerHTML = keys[22];
+	document.getElementById("keyFCount").innerHTML = keys[23];
+	document.getElementById("keyGCount").innerHTML = keys[24];
+	document.getElementById("keyHCount").innerHTML = keys[25];
+	document.getElementById("keyJCount").innerHTML = keys[26];
+	document.getElementById("keyKCount").innerHTML = keys[27];
+	document.getElementById("keyLCount").innerHTML = keys[28];
+	document.getElementById("keyZCount").innerHTML = keys[29];
+	document.getElementById("keyXCount").innerHTML = keys[30];
+	document.getElementById("keyCCount").innerHTML = keys[31];
+	document.getElementById("keyVCount").innerHTML = keys[32];
+	document.getElementById("keyBCount").innerHTML = keys[33];
+	document.getElementById("keyNCount").innerHTML = keys[34];
+	document.getElementById("keyMCount").innerHTML = keys[35];
 	
 	if (currentBelt == "white") {
 		document.getElementById("belt").innerHTML = "White Belt";
@@ -173,8 +274,14 @@ function displayData() {
 }
 
 function oneM() {
-		
-	document.getElementById("totalKeys").innerHTML = keyCount;
+	
+	if (keyCount >= 1000) {
+		var keyCountFormat = Math.ceil((keyCount/1000) * 100) / 100;
+		document.getElementById("totalKeys").innerHTML = keyCountFormat + "K";
+	} else {
+		document.getElementById("totalKeys").innerHTML = keyCount;
+	}
+	
 	
 	//Script 1 Available
 	if (keyCarton >= script1Cost) {
@@ -186,6 +293,16 @@ function oneM() {
 		keyBotAvail = false;
 		document.getElementById("hireRobot").style.color = "#ababab";
 		document.getElementById("hireRobot").style.backgroundColor = "#ffffff";
+	}
+	
+	//Script 2 Available
+	if (keyCarton >= script2Cost) {
+		document.getElementById("hireRobot2").style.color = "black";
+		document.getElementById("hireRobot2").style.backgroundColor = "#BEF781";
+	}
+	else {
+		document.getElementById("hireRobot2").style.color = "#ababab";
+		document.getElementById("hireRobot2").style.backgroundColor = "#ffffff";
 	}
 	
 	//10 Key Presses
@@ -597,6 +714,8 @@ function keyUp(keyVar, keySpan, key, script) {
 	if (keys[keyVar] >= 1000) {
 		keysFormat = Math.ceil((keys[keyVar]/1000) * 100) / 100;
 		document.getElementById(keySpan).innerHTML = keysFormat + "K";
+	} else {
+		document.getElementById(keySpan).innerHTML = keys[keyVar];
 	}
 		
 	//Change Key to Next Level
@@ -604,35 +723,74 @@ function keyUp(keyVar, keySpan, key, script) {
 		document.getElementById(key).style.backgroundColor = "#F3F781";
 		document.getElementById("legendGold").style.visibility = "visible";
 	}
-	if (keys[keyVar] >= goldBeltReq) {document.getElementById(key).style.backgroundColor = "#FACC2E";}
-	if (keys[keyVar] >= orangeBeltReq) {document.getElementById(key).style.backgroundColor = "#FE9A2E";}
-	if (keys[keyVar] >= greenBeltReq) {document.getElementById(key).style.backgroundColor = "#01DF01";}
-	if (keys[keyVar] >= blueBeltReq) {document.getElementById(key).style.backgroundColor = "#00BFFF";}
-	if (keys[keyVar] >= purpleBeltReq) {document.getElementById(key).style.backgroundColor = "#9F81F7";}
+	if (keys[keyVar] >= goldBeltReq) {
+		document.getElementById(key).style.backgroundColor = "#FACC2E";
+		document.getElementById("legendOrange").style.visibility = "visible";
+	}
+	if (keys[keyVar] >= orangeBeltReq) {
+		document.getElementById(key).style.backgroundColor = "#FE9A2E";
+		document.getElementById("legendGreen").style.visibility = "visible";
+	}
+	if (keys[keyVar] >= greenBeltReq) {
+		document.getElementById(key).style.backgroundColor = "#01DF01";
+		document.getElementById("legendBlue").style.visibility = "visible";
+	}
+	if (keys[keyVar] >= blueBeltReq) {
+		document.getElementById(key).style.backgroundColor = "#00BFFF";
+		document.getElementById("legendPurple").style.visibility = "visible";
+	}
+	if (keys[keyVar] >= purpleBeltReq) {
+		document.getElementById(key).style.backgroundColor = "#9F81F7";
+		document.getElementById("legendBrown").style.visibility = "visible";
+	}
 	if (keys[keyVar] >= brownBeltReq) {
 		document.getElementById(key).style.backgroundColor = "#8A4B08";
 		document.getElementById(key).style.color = "#ffffff";
+		document.getElementById("legendRed").style.visibility = "visible";
 	}
-	if (keys[keyVar] >= redBeltReq) {document.getElementById(key).style.backgroundColor = "#DF0101";}
-	if (keys[keyVar] >= blackBeltReq) {document.getElementById(key).style.backgroundColor = "#000000";}
+	if (keys[keyVar] >= redBeltReq) {
+		document.getElementById(key).style.backgroundColor = "#DF0101";
+		document.getElementById("legendBlack").style.visibility = "visible";
+	}
+	if (keys[keyVar] >= blackBeltReq) {
+		document.getElementById(key).style.backgroundColor = "#000000";
+		document.getElementById("legendMBlack").style.visibility = "visible";
+	}
 	if (keys[keyVar] >= mBlackBeltReq) {
 		document.getElementById(key).style.fontWeight = "bold"
 		document.getElementById(key).style.color = "gold";
 	}
-	
-	document.getElementById(keySpan).innerHTML = keys[keyVar];
+
 	document.getElementById("keyCarton").innerHTML = Math.ceil(keyCarton * 100) / 100;
 }
 
 //Activate Script
-function timerStartBot() {
+function timerStartBot(script) {
 	if (keyBotAvail == true) {
 		//Update Key Bin
 		keyCarton -= script1Cost;
 		document.getElementById("keyCarton").innerHTML = Math.ceil(keyCarton * 100) / 100;
 		
 		//Update Scripts Per Second
-		scriptAutoCount += 1;
+		switch(script){
+			//Script 1
+			case 1:
+				scriptAutoCount += 1;
+				script1Count += 1;
+				script1Cost *= 2.25;
+				document.getElementById("script1Count").innerHTML = script1Count;
+				document.getElementById("script1Cost").innerHTML = Math.ceil(script1Cost * 100) / 100;
+				break;
+			//Script 2
+			case 2:
+				scriptAutoCount += 5;
+				script2Count += 1;
+				script2Cost *= 2.25;
+				document.getElementById("script2Count").innerHTML = script2Count;
+				document.getElementById("script2Cost").innerHTML = Math.ceil(script2Cost * 100) / 100;
+				break;
+		}
+		
 		document.getElementById("keyBotRate").innerHTML = scriptAutoCount + "/s";
 		
 		if (scriptAutoCount == 3) {
@@ -640,16 +798,10 @@ function timerStartBot() {
 			document.getElementById("script2Count").style.visibility = "visible";
 		}
 		
-		//Update Number of Scripts Active and Cost
-		script1Count += 1;
-		document.getElementById("script1Count").innerHTML = script1Count;
-		script1Cost *= 2.25;
-		document.getElementById("script1Cost").innerHTML = Math.ceil(script1Cost * 100) / 100;
-		
-		if (script1Active == false) {
+		if (scriptActive == false) {
 			timerSB = setInterval(runScript,1000);
 		}
-		script1Active = true;
+		scriptActive = true;
 	}
 }
 
