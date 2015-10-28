@@ -16,28 +16,41 @@
 <td><span id="topStats">Bin: <span id="keyCarton">0</span></span></td>
 </tr><tr>
 <td valign="top" width="325"><span id="subtitle">Scripts</span>
-	<p>
-	<table width="100%" border="0">
-	<tr>
+	<table width="100%" border="0" cellpadding="5">
+	<tr id="script1">
 	<td>
-		<div id="hireRobot" onclick="timerStartBot(1)">
-			<span id="keyBotText">Simple_Script_v01: <span id="script1Cost">10</span><br>
+		<div id="script1Up" onclick="timerStartBot(1)">
+			<span id="keyBotText">Script_v0.1<br>
 			<i><small>1 key/second</small></i></span>
 		</div>
 	</td>
 	<td>
-		<span id="script1Count">0</span>
+		Cost: <span id="script1Cost">10</span><br>
+		Count: <span id="script1Count">0</span>
 	</td>
 	</tr>
-	<tr>
+	<tr id="script2">
 	<td>
-		<div id="hireRobot2" onclick="timerStartBot(2)">
-			<span id="keyBotText">Better_Script_v2.5: <span id="script2Cost">250</span><br>
+		<div id="script2Up" onclick="timerStartBot(2)">
+			<span id="keyBotText">Script_v0.5<br>
 			<i><small>5 keys/second</small></i></span>
 		</div>
 	</td>
 	<td>
-		<span id="script2Count">0</span>
+		Cost: <span id="script2Cost">250</span><br>
+		Count: <span id="script2Count">0</span>
+	</td>
+	</tr>
+	<tr id="script3">
+	<td>
+		<div id="script3Up" onclick="timerStartBot(3)">
+			<span id="keyBotText">Script_v1.0<br>
+			<i><small>10 keys/second</small></i></span>
+		</div>
+	</td>
+	<td>
+		Cost: <span id="script3Cost">1.00K</span><br>
+		Count: <span id="script3Count">0</span>
 	</td>
 	</tr>
 	</table>
@@ -98,7 +111,7 @@
 
 </td>
 
-<td valign="top">
+<td valign="top" width="325">
 <span id="subtitle">Stats</span><br>
 <p>
 <span id="belt">White Belt</span>
@@ -112,34 +125,35 @@ Total Keys Pressed: <span id="totalKeys">0</span><br>
 <tr>
 <td colspan="2">
 
-<span id="subtitle">Achievements</span>
-<p>
-
-<span id="keyCount10"><span id="keyCount10Info">10 key presses</span> 10</span>
-<span id="keyCount100"><span id="keyCount100Info">100 key presses</span> 100</span>
-<span id="keyCount1K"><span id="keyCount1KInfo">1K key presses</span> 1K</span>
-<span id="keyCount10K"><span id="keyCount10KInfo">10K key presses</span> 10K</span>
-<p>
-<span id="numbers1"><span id="numbers1Info">Pressed each number</span> #s</span>
-<span id="letters1"><span id="letters1Info">Pressed each letter</span> Ls</span>
-<p>
-<span id="yellowBelt"><span id="yellowBeltInfo">Earned yellow belt</span> &nbsp;&nbsp;</span>
-<span id="goldBelt"><span id="goldBeltInfo">Earned gold belt</span> &nbsp;&nbsp;</span>
-<span id="orangeBelt"><span id="orangeBeltInfo">Earned orange belt</span> &nbsp;&nbsp;</span>
-<span id="greenBelt"><span id="greenBeltInfo">Earned green belt</span> &nbsp;&nbsp;</span>
-<span id="blueBelt"><span id="blueBeltInfo">Earned blue belt</span> &nbsp;&nbsp;</span>
-<span id="purpleBelt"><span id="purpleBeltInfo">Earned purple belt</span> &nbsp;&nbsp;</span>
-<span id="brownBelt"><span id="brownBeltInfo">Earned brown belt</span> &nbsp;&nbsp;</span>
-<span id="redBelt"><span id="redBeltInfo">Earned red belt</span> &nbsp;&nbsp;</span>
-<span id="blackBelt"><span id="blackBeltInfo">Earned black belt</span> &nbsp;&nbsp;</span>
-<span id="mBlackBelt"><span id="mBlackBeltInfo">Earned master black belt</span> &nbsp;&nbsp;</span>
-<span id="masterKey"><span id="masterKeyInfo" style="color:black; font-weight:normal">Earned one master black belt key</span> Mk</span>
-<p>
-<span id="script1x10"><span id="script1x10Info">Deployed 10 Simple Scripts</span> S1x10</span>
+<div id="achMnts">
+	<span id="subtitle">Achievements</span>
+	<p>
+	<span id="keyCount100"><span id="keyCount100Info">100 key presses</span> 100</span>
+	<span id="keyCount1K"><span id="keyCount1KInfo">1,000 key presses</span> 1K</span>
+	<span id="keyCount10K"><span id="keyCount10KInfo">10,000 key presses</span> 10K</span>
+	<span id="keyCount100K"><span id="keyCount100KInfo">100,000 key presses</span> 100K</span>
+	<p>
+	<span id="numbers1"><span id="numbers1Info">Pressed each number</span> #s</span>
+	<span id="letters1"><span id="letters1Info">Pressed each letter</span> Ls</span>
+	<p>
+	<span id="yellowBelt"><span id="yellowBeltInfo">Earned yellow belt</span> &nbsp;&nbsp;</span>
+	<span id="goldBelt"><span id="goldBeltInfo">Earned gold belt</span> &nbsp;&nbsp;</span>
+	<span id="orangeBelt"><span id="orangeBeltInfo">Earned orange belt</span> &nbsp;&nbsp;</span>
+	<span id="greenBelt"><span id="greenBeltInfo">Earned green belt</span> &nbsp;&nbsp;</span>
+	<span id="blueBelt"><span id="blueBeltInfo">Earned blue belt</span> &nbsp;&nbsp;</span>
+	<span id="purpleBelt"><span id="purpleBeltInfo">Earned purple belt</span> &nbsp;&nbsp;</span>
+	<span id="brownBelt"><span id="brownBeltInfo">Earned brown belt</span> &nbsp;&nbsp;</span>
+	<span id="redBelt"><span id="redBeltInfo">Earned red belt</span> &nbsp;&nbsp;</span>
+	<span id="blackBelt"><span id="blackBeltInfo">Earned black belt</span> &nbsp;&nbsp;</span>
+	<span id="mBlackBelt"><span id="mBlackBeltInfo">Earned master black belt</span> &nbsp;&nbsp;</span>
+	<span id="masterKey"><span id="masterKeyInfo" style="color:black; font-weight:normal">Earned one master black belt key</span> Mk</span>
+	<p>
+	<span id="script1x10"><span id="script1x10Info">Deployed 10 Simple Scripts</span> S1x10</span>
+</div>
 
 </td>
 <td>
-<span id="subtitle">Legend:</span>
+<span id="subtitle"><span id="legendInfo">Required amount for individual key belts</span> Legend</span><br>
 <p>
 <span id="legendYellow">Yellow: 10</span><br>
 <span id="legendGold">Gold: 25</span><br>
