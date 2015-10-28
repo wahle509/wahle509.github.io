@@ -301,6 +301,18 @@ function deleteData() {
 	document.getElementById("script2").style.visibility = "hidden";
 	document.getElementById("script3").style.visibility = "hidden";
 	
+	//Hide Belt Achievements
+	document.getElementById("yellowAchievement").style.visibility = "hidden";
+	document.getElementById("gold").style.visibility = "hidden";
+	document.getElementById("orangeAchievement").style.visibility = "hidden";
+	document.getElementById("greenAchievement").style.visibility = "hidden";
+	document.getElementById("blueAchievement").style.visibility = "hidden";
+	document.getElementById("purpleAchievement").style.visibility = "hidden";
+	document.getElementById("brownAchievement").style.visibility = "hidden";
+	document.getElementById("redAchievement").style.visibility = "hidden";
+	document.getElementById("blackAchievement").style.visibility = "hidden";
+	document.getElementById("mBlackAchievement").style.visibility = "hidden";
+	
 	//Hide Legend
 	document.getElementById("legendGold").style.visibility = "hidden";
 	document.getElementById("legendOrange").style.visibility = "hidden";
@@ -405,6 +417,16 @@ function oneM() {
 	else {
 		document.getElementById("script2Up").style.color = "#ababab";
 		document.getElementById("script2Up").style.backgroundColor = "#ffffff";
+	}
+	
+	//Script 3 Available
+	if (keyCarton >= script3Cost) {
+		document.getElementById("script3Up").style.color = "black";
+		document.getElementById("script3Up").style.backgroundColor = "#B1FB17";
+	}
+	else {
+		document.getElementById("script3Up").style.color = "#ababab";
+		document.getElementById("script3Up").style.backgroundColor = "#ffffff";
 	}
 	
 	//Display Next Available Script
@@ -566,7 +588,8 @@ function displayBelt(belt) {
 			manualKeyPress = 8;
 			document.getElementById("keysPerPress").innerHTML = manualKeyPress;
 			document.getElementById("brownBelt").style.visibility = "visible";
-			document.getElementById("belt").innerHTML = "Brown Belt";
+			document.getElementById("belt").innerHTML = "Brown Belt";		
+			document.getElementById("belt").style.color = "#FFFFFF";		
 			document.getElementById("belt").style.backgroundColor = "#8A4B08";
 			document.getElementById("topBelt").style.backgroundColor = "#8A4B08";					
 			break;
@@ -876,7 +899,7 @@ function keyUp(key, script) {
 	if (key.count >= brownBeltReq) {
 		document.getElementById(key.spanID).style.backgroundColor = "#8A4B08";
 		document.getElementById(key.spanID).style.color = "#ffffff";
-		document.getElementById(key.countID).style.color = "#565656";
+		document.getElementById(key.countID).style.color = "#dedede";
 		document.getElementById("legendRed").style.visibility = "visible";
 		key.belt = "brown";
 	}
@@ -957,11 +980,36 @@ function runScript() {
 
 //Format Numbers to K, M, B
 function formatNum(num) {
-	if (num >= 1000000){
-		return num = Math.ceil((num/1000000) * 100) / 100 + "M";
+	if (num >= 1000000000) {
+		return num = (Math.ceil((num/1000000000) * 100) / 100).toFixed(2) + "B";
+	} else if (num >= 1000000){
+		return num = (Math.ceil((num/1000000) * 100) / 100).toFixed(2) + "M";
 	} else if (num >= 1000) {
-		return num = Math.ceil((num/1000) * 100) / 100 + "K";
+		return num = (Math.ceil((num/1000) * 100) / 100).toFixed(2) + "K";
 	} else {
 		return num = Math.round(Math.ceil(num * 100) / 100);
+	}
+}
+
+//Tab DISPLAY
+function tabDisplay(tab) {
+	document.getElementById("achMnts").style.display = "none";
+	document.getElementById("legend").style.display = "none";
+	document.getElementById("information").style.display = "none";
+	document.getElementById("options").style.display = "none";
+	
+	switch(tab) {
+		case 1:
+			document.getElementById("achMnts").style.display = "block";
+			break;
+		case 2:
+			document.getElementById("legend").style.display = "block";
+			break;
+		case 3:
+			document.getElementById("information").style.display = "block";
+			break;
+		case 4:
+			document.getElementById("options").style.display = "block";
+			break;
 	}
 }

@@ -16,7 +16,7 @@
 <td><span id="topStats">Bin: <span id="keyCarton">0</span></span></td>
 </tr><tr>
 <td valign="top" width="325"><span id="subtitle">Scripts</span>
-	<table width="100%" border="0" cellpadding="5">
+	<table width="100%" border="0" cellpadding="2">
 	<tr id="script1">
 	<td>
 		<div id="script1Up" onclick="timerStartBot(1)">
@@ -124,9 +124,13 @@ Total Keys Pressed: <span id="totalKeys">0</span><br>
 </tr>
 <tr>
 <td colspan="2">
-
+<div id="tabs">
+<span id="subtitle" onClick="tabDisplay(1)">Achievements</span>
+<span id="subtitle" onClick="tabDisplay(2)">Legend</span>
+<span id="subtitle" onClick="tabDisplay(3)">Information</span>
+<span id="subtitle" onClick="tabDisplay(4)">Options</span>
+</div>
 <div id="achMnts">
-	<span id="subtitle">Achievements</span>
 	<p>
 	<span id="keyCount100"><span id="keyCount100Info">100 key presses</span> 100</span>
 	<span id="keyCount1K"><span id="keyCount1KInfo">1,000 key presses</span> 1K</span>
@@ -151,25 +155,33 @@ Total Keys Pressed: <span id="totalKeys">0</span><br>
 	<span id="script1x10"><span id="script1x10Info">Deployed 10 Simple Scripts</span> S1x10</span>
 </div>
 
-</td>
-<td>
-<span id="subtitle"><span id="legendInfo">Required amount for individual key belts</span> Legend</span><br>
-<p>
-<span id="legendYellow">Yellow: 10</span><br>
-<span id="legendGold">Gold: 25</span><br>
-<span id="legendOrange">Orange: 75</span><br>
-<span id="legendGreen">Green: 150</span><br>
-<span id="legendBlue">Blue: 400</span><br>
-<span id="legendPurple">Purple: 1000</span><br>
-<span id="legendBrown">Brown: 2500</span><br>
-<span id="legendRed">Red: 5000</span><br>
-<span id="legendBlack">Black: 7500</span><br>
-<span id="legendMBlack">Master Black: 10000</span><br>
+<div id="legend">
+	<span id="legendInfo">Required amount for individual key belts</span><br>
+	<span id="legendYellow">Yellow: 10</span><br>
+	<span id="legendGold">Gold: 25</span><br>
+	<span id="legendOrange">Orange: 75</span><br>
+	<span id="legendGreen">Green: 150</span><br>
+	<span id="legendBlue">Blue: 400</span><br>
+	<span id="legendPurple">Purple: 1000</span><br>
+	<span id="legendBrown">Brown: 2500</span><br>
+	<span id="legendRed">Red: 5000</span><br>
+	<span id="legendBlack">Black: 7500</span><br>
+	<span id="legendMBlack">Master Black: 10000</span>
+</div>
+
+<div id="information">
+<b>Bin</b>: This is the number of keys you are holding to purchase/deploy scripts<br>
+<b>Keys</b>: Each individual key can upgrade to a belt color upon the number of presses it receives (see: Legend)<br>
+<b>Belt</b>: Your current belt; this will change when all keys upgrade to the next color<br>
+<b>Keys Per Press</b>: Increased upon each belt upgrade<br>
+</div>
+
+<div id="options">
+<span id="deleteData" onclick="deleteData()">Hard Reset</span>
+</div>
+
 </td>
 </tr>
-<tr><td>
-<span id="deleteData" onclick="deleteData()">Hard Reset</span>
-</td></tr>
 </table>
 
 </body>
