@@ -80,17 +80,18 @@ var keyM = {count:0, spanID:"m", countID:"keyMCount", code:77, belt:"white"}
 //Array for keys
 var keys = [key1, key2, key3, key4, key5, key6, key7, key8, key9, key0, keyQ, keyW, keyE, keyR, keyT, keyY, keyU, keyI, keyO, keyP, keyA, keyS, keyD, keyF, keyG, keyH, keyJ, keyK, keyL, keyZ, keyX, keyC, keyV, keyB, keyN, keyM];
 
-var beltReq = 10;
-var yellowBeltReq = 10;
-var goldBeltReq = 25;
-var orangeBeltReq = 75;
-var greenBeltReq = 150;
-var blueBeltReq = 400;
-var purpleBeltReq = 1000;
-var brownBeltReq = 2500;
-var redBeltReq = 5000;
-var blackBeltReq = 7500;
-var mBlackBeltReq = 10000;
+var beltReq = 25;
+var yellowBeltReq = 25;
+var goldBeltReq = 75;
+var orangeBeltReq = 150;
+var greenBeltReq = 400;
+var blueBeltReq = 1000;
+var purpleBeltReq = 2500;
+var brownBeltReq = 7500;
+var redBeltReq = 15000;
+var blackBeltReq = 50000;
+var mBlackBeltReq = 100000;
+
 
 var randomKey = 0;
 var min = 48;
@@ -302,17 +303,17 @@ function deleteData() {
 	document.getElementById("script3").style.visibility = "hidden";
 	
 	//Hide Belt Achievements
-	document.getElementById("yellowAchievement").style.visibility = "hidden";
-	document.getElementById("gold").style.visibility = "hidden";
-	document.getElementById("orangeAchievement").style.visibility = "hidden";
-	document.getElementById("greenAchievement").style.visibility = "hidden";
-	document.getElementById("blueAchievement").style.visibility = "hidden";
-	document.getElementById("purpleAchievement").style.visibility = "hidden";
-	document.getElementById("brownAchievement").style.visibility = "hidden";
-	document.getElementById("redAchievement").style.visibility = "hidden";
-	document.getElementById("blackAchievement").style.visibility = "hidden";
-	document.getElementById("mBlackAchievement").style.visibility = "hidden";
-	
+	document.getElementById("yellowBelt").style.visibility = "hidden";
+	document.getElementById("goldBelt").style.visibility = "hidden";
+	document.getElementById("orangeBelt").style.visibility = "hidden";
+	document.getElementById("greenBelt").style.visibility = "hidden";
+	document.getElementById("blueBelt").style.visibility = "hidden";
+	document.getElementById("purpleBelt").style.visibility = "hidden";
+	document.getElementById("brownBelt").style.visibility = "hidden";
+	document.getElementById("redBelt").style.visibility = "hidden";
+	document.getElementById("blackBelt").style.visibility = "hidden";
+	document.getElementById("mBlackBelt").style.visibility = "hidden";
+
 	//Hide Legend
 	document.getElementById("legendGold").style.visibility = "hidden";
 	document.getElementById("legendOrange").style.visibility = "hidden";
@@ -323,6 +324,8 @@ function deleteData() {
 	document.getElementById("legendRed").style.visibility = "hidden";
 	document.getElementById("legendBlack").style.visibility = "hidden";
 	document.getElementById("legendMBlack").style.visibility = "hidden";
+	
+	document.getElementById("resetConfirm").style.visibility = "hidden";
 	
 	displayData();
 }
@@ -997,19 +1000,27 @@ function tabDisplay(tab) {
 	document.getElementById("legend").style.display = "none";
 	document.getElementById("information").style.display = "none";
 	document.getElementById("options").style.display = "none";
+	document.getElementById("subtitleA").style.backgroundColor = "white";
+	document.getElementById("subtitleI").style.backgroundColor = "white";
+	document.getElementById("subtitleL").style.backgroundColor = "white";
+	document.getElementById("subtitleO").style.backgroundColor = "white";
 	
 	switch(tab) {
 		case 1:
 			document.getElementById("achMnts").style.display = "block";
+			document.getElementById("subtitleA").style.backgroundColor = "#FFDB58";
 			break;
 		case 2:
 			document.getElementById("legend").style.display = "block";
+			document.getElementById("subtitleL").style.backgroundColor = "#FFDB58";
 			break;
 		case 3:
 			document.getElementById("information").style.display = "block";
+			document.getElementById("subtitleI").style.backgroundColor = "#FFDB58";
 			break;
 		case 4:
 			document.getElementById("options").style.display = "block";
+			document.getElementById("subtitleO").style.backgroundColor = "#FFDB58";
 			break;
 	}
 }

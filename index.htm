@@ -12,11 +12,13 @@
 
 <table width="100%" border="0" cellpadding="20">
 <tr>
-<td colspan="2"><span id="title">Keyboard Ninja</span></td>
-<td><span id="topStats">Bin: <span id="keyCarton">0</span></span></td>
+<td><span id="title">Keyboard Ninja</span> <span id="version">v0.1.0</span></td>
+<td align="right"><span id="topStats">Bin: <span id="keyCarton">0</span></span></td>
 </tr><tr>
-<td valign="top" width="325"><span id="subtitle">Scripts</span>
-	<table width="100%" border="0" cellpadding="2">
+<td valign="top" width="350">
+<div id="scripts">
+<span id="subtitle">Scripts</span>
+	<table width="100%" border="0" cellpadding="2" cellspacing="0">
 	<tr id="script1">
 	<td>
 		<div id="script1Up" onclick="timerStartBot(1)">
@@ -54,6 +56,7 @@
 	</td>
 	</tr>
 	</table>
+</div>
 </td>
 <td valign="top">
 
@@ -110,25 +113,26 @@
 </div>
 
 </td>
-
-<td valign="top" width="325">
-<span id="subtitle">Stats</span><br>
-<p>
-<span id="belt">White Belt</span>
-<p>
-Keys Per Press: <span id="keysPerPress">1</span><br>
-Scripts: <span id="keyBotRate">0/s</span>
-<p>
-Total Keys Pressed: <span id="totalKeys">0</span><br>
-<p>
 </tr>
 <tr>
-<td colspan="2">
+<td valign="top">
+<div id="stats">
+	<span id="subtitle">Stats</span>
+	<p>
+	<span id="belt">White Belt</span>
+	<p>
+	Keys Per Press: <span id="keysPerPress">1</span><br>
+	Scripts: <span id="keyBotRate">0/s</span>
+	<p>
+	Total Keys Pressed: <span id="totalKeys">0</span><br>
+	</div>
+</td>
+<td valign="top">
 <div id="tabs">
-<span id="subtitle" onClick="tabDisplay(1)">Achievements</span>
-<span id="subtitle" onClick="tabDisplay(2)">Legend</span>
-<span id="subtitle" onClick="tabDisplay(3)">Information</span>
-<span id="subtitle" onClick="tabDisplay(4)">Options</span>
+<span id="subtitleI" onClick="tabDisplay(3)">Information</span>
+<span id="subtitleL" onClick="tabDisplay(2)">Legend</span>
+<span id="subtitleA" onClick="tabDisplay(1)">Achievements</span>
+<span id="subtitleO" onClick="tabDisplay(4)">Options</span>
 </div>
 <div id="achMnts">
 	<p>
@@ -157,27 +161,34 @@ Total Keys Pressed: <span id="totalKeys">0</span><br>
 
 <div id="legend">
 	<span id="legendInfo">Required amount for individual key belts</span><br>
-	<span id="legendYellow">Yellow: 10</span><br>
-	<span id="legendGold">Gold: 25</span><br>
-	<span id="legendOrange">Orange: 75</span><br>
-	<span id="legendGreen">Green: 150</span><br>
-	<span id="legendBlue">Blue: 400</span><br>
-	<span id="legendPurple">Purple: 1000</span><br>
-	<span id="legendBrown">Brown: 2500</span><br>
-	<span id="legendRed">Red: 5000</span><br>
-	<span id="legendBlack">Black: 7500</span><br>
-	<span id="legendMBlack">Master Black: 10000</span>
+	<span id="legendYellow">Yellow: 25</span><br>
+	<span id="legendGold">Gold: 75</span><br>
+	<span id="legendOrange">Orange: 150</span><br>
+	<span id="legendGreen">Green: 400</span><br>
+	<span id="legendBlue">Blue: 1000</span><br>
+	<span id="legendPurple">Purple: 2500</span><br>
+	<span id="legendBrown">Brown: 7500</span><br>
+	<span id="legendRed">Red: 15000</span><br>
+	<span id="legendBlack">Black: 50000</span><br>
+	<span id="legendMBlack">Master Black: 100000</span>
 </div>
 
 <div id="information">
 <b>Bin</b>: This is the number of keys you are holding to purchase/deploy scripts<br>
-<b>Keys</b>: Each individual key can upgrade to a belt color upon the number of presses it receives (see: Legend)<br>
+<b>Scripts</b>: Each script you deploy will automatically select a random key to press on its own<br>
+<b>Keys</b>: Each individual key can upgrade to a belt color upon the number of presses it receives<br>
 <b>Belt</b>: Your current belt; this will change when all keys upgrade to the next color<br>
 <b>Keys Per Press</b>: Increased upon each belt upgrade<br>
+<p>
+<i>Programmed & Designed by: Erich</i>
 </div>
 
 <div id="options">
-<span id="deleteData" onclick="deleteData()">Hard Reset</span>
+<span id="deleteData" onClick="document.getElementById('resetConfirm').style.visibility='visible'">Hard Reset</span><br>
+<div id="resetConfirm">
+	All game data will be lost, are you sure?<br>
+	<span id="resetYes" onClick="deleteData()">Yes</span> <span id="resetNo" onClick="document.getElementById('resetConfirm').style.visibility='hidden'">No</span>
+</div>
 </div>
 
 </td>

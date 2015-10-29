@@ -1,11 +1,19 @@
 body {font-family:Courier; margin:0}
 
-#title {font-size:32}
-#topStats {font-size:28}
-#subtitle {font-size:20; text-decoration:underline}
+span, div {-moz-user-select: none; -webkit-user-select: none}
 
-#belt {padding:4; border:solid 1px #dedede}
-#topBelt {padding:0; width:100%; height:4}
+#title {font-size:32; cursor:default}
+#version {cursor:default}
+#topStats {cursor:default; font-size:28}
+#stats {width:275px}
+#scripts {width:275px}
+#subtitleI {background-color:#FFDB58}
+#subtitle, #subtitleA, #subtitleL, #subtitleI, #subtitleO {cursor:default; font-size:20; text-decoration:underline; padding:2}
+
+#belt {cursor:default; padding:4; border:solid 1px #dedede}
+#topBelt {padding:0; width:100%; height:5}
+
+#keyboard {cursor:default; width:750px}
 
 /* Keyboard Keys */
 #keyboard span{
@@ -19,7 +27,8 @@ body {font-family:Courier; margin:0}
  border:2px solid #dedede;
  margin-right:-3px;
  -moz-user-select: none; 
- cursor:default
+ cursor:default;
+ position:relative;
  }
 #keyboard div {margin-bottom:30}
 
@@ -42,15 +51,16 @@ body {font-family:Courier; margin:0}
 #rowZ {padding-bottom:12; margin-left:60}
 
 /* Tabs */
-#tabs span {margin-right:6; cursor:pointer}
+#tabs span {margin-right:2; cursor:pointer}
 
-#legend, #information, #options {display:none}
+#legend, #achMnts, #options {display:none; margin-top:5}
+#information {margin-top:5}
 #legendInfo {font-size:12; font-style:italic; color:#343434}
 #legendGold , #legendOrange, #legendGreen, #legendBlue, #legendBrown, #legendPurple, #legendRed, #legendBlack, #legendMBlack {visibility:hidden}
 
 /* Upgrades */
-#script1Up, #script2Up, #script3Up {padding:8; cursor:pointer}
-#script1, #script2, #script3 {-moz-user-select: none; padding:8; cursor:default; color:#ababab; margin-bottom:2}
+#script1Up, #script2Up, #script3Up {padding:8; cursor:pointer; border-radius:5px}
+#script1, #script2, #script3 {-moz-user-select: none; padding:8; cursor:default; color:#ababab; margin-bottom:3}
 #script2, #script3 {visibility:hidden}
 #script1Count, #script2Count, #script3Count, #script1Cost, #script2Cost, #script3Cost {-moz-user-select: none; font-size:16; color:#343434}
 
@@ -93,3 +103,5 @@ body {font-family:Courier; margin:0}
 
 #deleteData {-moz-user-select: none; cursor:pointer}
 #deleteData:hover {color:red}
+#resetConfirm {visibility:hidden}
+#resetYes:hover, #resetNo:hover {font-weight:bold; cursor:pointer}
