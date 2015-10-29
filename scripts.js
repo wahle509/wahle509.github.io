@@ -1008,19 +1008,19 @@ function tabDisplay(tab) {
 	switch(tab) {
 		case 1:
 			document.getElementById("achMnts").style.display = "block";
-			document.getElementById("subtitleA").style.backgroundColor = "#FFDB58";
+			document.getElementById("subtitleA").style.backgroundColor = "#ADD8E6";
 			break;
 		case 2:
 			document.getElementById("legend").style.display = "block";
-			document.getElementById("subtitleL").style.backgroundColor = "#FFDB58";
+			document.getElementById("subtitleL").style.backgroundColor = "#ADD8E6";
 			break;
 		case 3:
 			document.getElementById("information").style.display = "block";
-			document.getElementById("subtitleI").style.backgroundColor = "#FFDB58";
+			document.getElementById("subtitleI").style.backgroundColor = "#ADD8E6";
 			break;
 		case 4:
 			document.getElementById("options").style.display = "block";
-			document.getElementById("subtitleO").style.backgroundColor = "#FFDB58";
+			document.getElementById("subtitleO").style.backgroundColor = "#ADD8E6";
 			break;
 	}
 }

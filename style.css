@@ -7,7 +7,7 @@ span, div {-moz-user-select: none; -webkit-user-select: none}
 #topStats {cursor:default; font-size:28}
 #stats {width:275px}
 #scripts {width:275px}
-#subtitleI {background-color:#FFDB58}
+#subtitleI {background-color:#ADD8E6}
 #subtitle, #subtitleA, #subtitleL, #subtitleI, #subtitleO {cursor:default; font-size:20; text-decoration:underline; padding:2}
 
 #belt {cursor:default; padding:4; border:solid 1px #dedede}
@@ -60,7 +60,7 @@ span, div {-moz-user-select: none; -webkit-user-select: none}
 
 /* Upgrades */
 #script1Up, #script2Up, #script3Up {padding:8; cursor:pointer; border-radius:5px}
-#script1, #script2, #script3 {-moz-user-select: none; padding:8; cursor:default; color:#ababab; margin-bottom:3}
+#script1, #script2, #script3 {-moz-user-select: none; padding:3; cursor:default; color:#ababab}
 #script2, #script3 {visibility:hidden}
 #script1Count, #script2Count, #script3Count, #script1Cost, #script2Cost, #script3Cost {-moz-user-select: none; font-size:16; color:#343434}
 
