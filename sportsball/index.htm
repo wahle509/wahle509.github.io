@@ -90,10 +90,11 @@ function oneS() {
 	
 	if (totalMoney >= 50 && managerActive == false) {
 		document.getElementById("manager").style.backgroundColor = "yellow";
-	}
+	} else {document.getElementById("manager").style.backgroundColor = "#efefef";}
+	
 	if (totalMoney >= 100 && trainerActive == false) {
 		document.getElementById("trainers").style.backgroundColor = "yellow";
-	}
+	} else {document.getElementById("trainer").style.backgroundColor = "#efefef";}
 }
 
 function gameResult() {
