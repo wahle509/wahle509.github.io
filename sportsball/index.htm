@@ -1,0 +1,443 @@
+<html>
+<head>
+<title>Sportsball Champion</title>
+<link rel="icon" type="image/png" href="ball.png">
+<style>
+body {font-family:Rockwell}
+table td, th{font-size:20}
+span, div {-moz-user-select: none; -webkit-user-select: none; cursor:default}
+progress {border-radius:3px; inset; height:20; width:99%; background-color:#f3f3f3; border:0}
+progress::-moz-progress-bar {background-color:steelblue}
+#levelUp {height:4}
+#levelUp::-moz-progress-bar {background-color:#5AAC56}
+#level {font-size:24}
+
+#title {font-size:30}
+#money {cursor:pointer; border:1px solid green; padding:5}
+#money:hover {background-color:#8DCF8A}
+#totalMoney {cursor:pointer}
+#top {border:1px solid #dedede; padding:5}
+
+#manager, #trainers {background-color:#efefef; padding:5; cursor:pointer}
+#managerText, #trainerText {cursor:pointer}
+#manager:hover, #trainers:hover {background-color:#8DCF8A}
+
+#upgradeManager, #upgradeTrainer {display:none; cursor:pointer; color:white}
+#upgradeManagerInfo, #upgradeTrainerInfo {color:black; font-style:italic; font-size:12; visibility:hidden; position:absolute; margin-top:25; margin-left:-50; background-color:#dedede; padding:3}
+#upgradeManager:hover #upgradeManagerInfo {visibility:visible}
+#upgradeTrainer:hover #upgradeTrainerInfo {visibility:visible}
+
+#startSeason {border:1px dashed #ababab; padding:5; display:none; width:500; text-align:center}
+</style>
+
+<script>
+var seconds = 0;
+var totalMoney = 0;
+var overallMoney = 0;
+var xp = 0;
+var winChance = 5;
+var winChanceInc = 0.01;
+var gameNum = 1;
+var result = false;
+var level = 1;
+var nextLevel = 10;
+var previousLevel = 0;
+var seasons = 1;
+var totalWins = 0;
+var totalLoss = 0;
+var totalGames = 0;
+var countdownSec = 5;
+var trainerActive = false;
+var managerActive = false;
+var managerEarnings = 1;
+var startCountdown;
+
+//End of Season Stats
+var seasonWin = 0;
+var seasonLoss = 0;
+var seasonMoney = 0;
+var seasonXp = 0;
+
+function timer() {timerS = setInterval(oneS,1000);}
+
+function oneS() {
+	if (seconds < 5) {
+		seconds++;
+		switch(gameNum) {
+			case 1:
+				document.getElementById("game1").value = seconds;
+				break;
+			case 2:
+				document.getElementById("game2").value = seconds;
+				break;
+			case 3:
+				document.getElementById("game3").value = seconds;
+				break;
+			case 4:
+				document.getElementById("game4").value = seconds;
+				break;
+			case 5:
+				document.getElementById("game5").value = seconds;
+				break;
+		}
+		
+	} else {
+		gameResult();
+		seconds = 0;
+	}	
+	
+	document.getElementById("overallMoney").innerHTML = "$" + overallMoney;
+	
+	if (totalMoney >= 50 && managerActive == false) {
+		document.getElementById("manager").style.backgroundColor = "yellow";
+	}
+	if (totalMoney >= 100 && trainerActive == false) {
+		document.getElementById("trainers").style.backgroundColor = "yellow";
+	}
+}
+
+function gameResult() {
+	var num = Math.random() * 100;
+	
+	if (num <= winChance) {
+		//Game Won
+		result = true;
+		xp += 5;
+		document.getElementById("totalXp").innerHTML = xp;
+		totalMoney += 10;
+		document.getElementById("totalMoney").innerHTML = totalMoney;
+		seasonMoney += 10;
+		overallMoney += 10;
+		seasonXp += 5;
+		seasonWin++;
+		totalWins++;
+	} else {
+		//Game Lost
+		result = false;
+		xp += 1;
+		document.getElementById("totalXp").innerHTML = xp;
+		totalMoney += 5;
+		document.getElementById("totalMoney").innerHTML = totalMoney;
+		seasonMoney += 5;
+		overallMoney += 5;
+		seasonXp += 1;
+		seasonLoss++;
+		totalLoss++;
+	}
+	
+	totalGames++;
+	document.getElementById("totalGames").innerHTML = totalGames;
+	
+	checkXp();
+	
+	document.getElementById("levelUp").value = xp - previousLevel;
+	displayResult(gameNum);
+	
+	var winPct = totalWins/(totalWins+totalLoss);
+	document.getElementById("overallRecord").innerHTML = totalWins + "-" + totalLoss + " [" + winPct.toFixed(3) + "]";
+}
+
+function checkXp() {
+	if (xp >= nextLevel) {
+		level++;
+		document.getElementById("level").innerHTML = level;
+		previousLevel = nextLevel;
+		nextLevel *= 2.5;
+		document.getElementById("levelUp").max = nextLevel;
+		document.getElementById("levelUp").value = 0;
+		winChance++;
+		document.getElementById("winChance").innerHTML = winChance + "%";
+	}
+}
+
+function displayResult(num) {
+	switch(num) {
+		case 1: 
+			if (result == true) {
+				document.getElementById("game1Result").innerHTML = "Win";
+				document.getElementById("game1Result").style.color = "green";
+			} else {
+				document.getElementById("game1Result").innerHTML = "Lose";
+				document.getElementById("game1Result").style.color = "red";
+			}
+			gameNum++;
+			break;
+		case 2:
+			if (result == true) {
+				document.getElementById("game2Result").innerHTML = "Win";
+				document.getElementById("game2Result").style.color = "green";
+			} else {
+				document.getElementById("game2Result").innerHTML = "Lose";
+				document.getElementById("game2Result").style.color = "red";
+			}
+			gameNum++;
+			break;
+		case 3:
+			if (result == true) {
+				document.getElementById("game3Result").innerHTML = "Win";
+				document.getElementById("game3Result").style.color = "green";
+			} else {
+				document.getElementById("game3Result").innerHTML = "Lose";
+				document.getElementById("game3Result").style.color = "red";
+			}
+			gameNum++;
+			break;
+		case 4:
+			if (result == true) {
+				document.getElementById("game4Result").innerHTML = "Win";
+				document.getElementById("game4Result").style.color = "green";
+			} else {
+				document.getElementById("game4Result").innerHTML = "Lose";
+				document.getElementById("game4Result").style.color = "red";
+			}
+			gameNum++;
+			break;
+		case 5:
+			if (result == true) {
+				document.getElementById("game5Result").innerHTML = "Win";
+				document.getElementById("game5Result").style.color = "green";
+			} else {
+				document.getElementById("game5Result").innerHTML = "Lose";
+				document.getElementById("game5Result").style.color = "red";
+			}
+			clearTimeout(timerS);
+			endSeason();
+			break;				
+	}
+	
+	if (trainerActive == true) {
+		winChance += winChanceInc;
+		document.getElementById("winChance").innerHTML = winChance.toFixed(2) + "%";
+	}
+	
+}
+
+function endSeason() {
+	document.getElementById("seasonRecord").innerHTML = seasonWin + "-" + seasonLoss;
+	document.getElementById("seasonMoney").innerHTML = "$" + seasonMoney;
+	document.getElementById("seasonXp").innerHTML = seasonXp;
+	document.getElementById("startSeason").style.display = "block";
+	document.getElementById("currentSeason").style.backgroundColor = "#8DCF8A";
+	setTimeout(startSeason, 5000);
+	startCountdown = setInterval(countdown, 1000);
+}
+
+function countdown() {
+	if (countdownSec > 0) {
+		countdownSec--;
+		document.getElementById("countdownSec").innerHTML = countdownSec;	
+	} else {
+		countdownSec = 5;
+		document.getElementById("countdownSec").innerHTML = countdownSec;
+		clearInterval(startCountdown);
+	}
+
+}
+
+function startSeason() {
+	document.getElementById("startSeason").style.display = "none";
+	seasons++;
+	document.getElementById("seasons").innerHTML = seasons;
+	
+	document.getElementById("game1").value = 0;
+	document.getElementById("game2").value = 0;
+	document.getElementById("game3").value = 0;
+	document.getElementById("game4").value = 0;
+	document.getElementById("game5").value = 0;
+	document.getElementById("game1Result").innerHTML = "";
+	document.getElementById("game2Result").innerHTML = "";
+	document.getElementById("game3Result").innerHTML = "";
+	document.getElementById("game4Result").innerHTML = "";
+	document.getElementById("game5Result").innerHTML = "";
+	gameNum = 1;
+	
+	document.getElementById("lastSeasonRecord").innerHTML = seasonWin + "-" + seasonLoss;
+	document.getElementById("lastSeasonMoney").innerHTML = "$" + seasonMoney;
+	document.getElementById("lastSeasonXp").innerHTML = seasonXp;
+	seasonWin = 0;
+	seasonLoss = 0;
+	seasonMoney = 0;
+	seasonXp = 0;	
+	document.getElementById("seasonRecord").innerHTML = seasonWin + "-" + seasonLoss;
+	document.getElementById("seasonMoney").innerHTML = "$" + seasonMoney;
+	document.getElementById("seasonXp").innerHTML = seasonXp;
+	
+	timer();
+}
+
+function gainMoney() {
+	totalMoney += managerEarnings;
+	overallMoney += managerEarnings;
+	document.getElementById("totalMoney").innerHTML = totalMoney;
+}
+
+function hireManager() {
+	if (totalMoney >= 50 && managerActive == false) {
+		setInterval(gainMoney,1000);
+		document.getElementById("managerText").innerHTML = "Manager: $1/s";
+		document.getElementById("manager").style.backgroundColor = "#8DCF8A";
+		totalMoney -= 50;
+		document.getElementById("totalMoney").innerHTML = totalMoney;
+		managerActive = true;
+		document.getElementById("upgradeManager").style.display = "block";
+	}	
+}
+
+function hireTrainer() {
+	if (totalMoney >= 100) {
+		document.getElementById("trainerText").innerHTML = "Trainers: 0.01xp/game";
+		document.getElementById("trainers").style.backgroundColor = "#8DCF8A";
+		totalMoney -= 100;
+		document.getElementById("totalMoney").innerHTML = totalMoney;
+		trainerActive = true;
+		document.getElementById("upgradeTrainer").style.display = "block";
+	}
+}
+
+function upgradeManager() {
+	if (totalMoney >= 1000) {
+		totalMoney -= 1000;
+		document.getElementById("totalMoney").innerHTML = totalMoney;
+		managerEarnings++;
+		document.getElementById("managerText").innerHTML = "Manager: $" + managerEarnings + "/s";
+	}
+}
+
+function upgradeTrainer() {
+	if (totalMoney >= 2500) {
+		totalMoney -= 2500;
+		document.getElementById("totalMoney").innerHTML = totalMoney;
+		winChanceInc += 0.01;
+		document.getElementById("trainerText").innerHTML = "Trainers:" + winChanceInc + "xp/games";
+	}
+}
+</script>
+</head>
+
+<body onLoad="timer()">
+<span id="title">Sportsball Champion</span>
+<hr>
+
+<p>
+
+<table cellpadding="10" border="0" width="100%">
+<tr>
+<td valign="top" width="250">
+	<div id="money" onClick="gainMoney()">Money: $<span id="totalMoney">0</span></div>
+	<p>
+	<div id="top">Win Chance: <span id="winChance">5%</span></div>
+	<p>
+	<div id="manager" onClick="hireManager()">
+		<table cellspacing="0" width="100%"><tr><td>
+		<span id="managerText">
+			Hire Manager<br>
+			<small>+$1/s [$50]</small>
+		</span>
+		</td><td align="right">
+			<span id="upgradeManager" onclick="upgradeManager()">
+				<span id="upgradeManagerInfo">Upgrade your manager with an additional $1/s for $1,000</span>
+				+
+			</span>
+		</td>
+		</tr></table>
+	</div>
+	<p>
+	<div id="trainers" onclick="hireTrainer()">
+		<table cellspacing="0" width="100%"><tr><td>
+		<span id="trainerText">
+			Hire Trainers<br>
+			<small>+0.01 xp/game [$100]</small>
+		</span>
+		</td><td>
+			<span id="upgradeTrainer" onclick="upgradeTrainer()">
+				<span id="upgradeTrainerInfo">Upgrade your trainers with an additional 1% xp/game for $2,500</span>
+				+
+			</span>
+		</td>
+		</tr></table>
+	</div>
+</td>
+
+<td align="center">
+	<table width="650">
+	<tr>
+	<td>Level: <span id="level">1</span></td>
+	<td>
+		<div id="top">
+			 XP: <span id="totalXp">0</span><br>
+			<progress id="levelUp" value="0" min="0" max="10"></progress>
+		</div>
+	</td>
+	</tr>
+	</table>
+
+	<p>
+
+	<!-- Game Progress -->
+	<table id="tGames" border="1" width="650" cellspacing="0" cellpadding="5">
+	<tr><th width="20">Game</th><th width="30">Result</th><th>Progress</th></tr>
+	<tr>
+		<td align="center">1</td>
+		<td align="center"><span id="game1Result"></span></td>
+		<td><progress min="0" max="5" value="0" id="game1"></progress></td>
+	</tr>
+	<tr>
+		<td align="center">2</td>
+		<td align="center"><span id="game2Result"></span></td>
+		<td><progress min="0" max="5" value="0" id="game2"></progress></td>
+	</tr>
+	<tr>
+		<td align="center">3</td>
+		<td align="center"><span id="game3Result"></span></td>
+		<td><progress min="0" max="5" value="0" id="game3"></progress></td>
+	</tr>
+	<tr>
+		<td align="center">4</td>
+		<td align="center"><span id="game4Result"></span></td>
+		<td><progress min="0" max="5" value="0" id="game4"></progress></td>
+	</tr>
+	<tr>
+		<td align="center">5</td>
+		<td align="center"><span id="game5Result"></span></td>
+		<td><progress min="0" max="5" value="0" id="game5"></progress></td>
+	</tr>
+	</table>
+	
+	<p>
+	
+	<table cellpadding="5" width="650">
+	<tr>
+	<td bgcolor="#8DCF8A">
+		<div id="currentSeason">
+		<b>This Season Results</b><br>
+		Record: <span id="seasonRecord">0-0</span><br>
+		Money Earned: <span id="seasonMoney">$0</span><br>
+		XP Gained: <span id="seasonXp">0</span><br>
+		</div>
+	</td>
+	<td bgcolor="#efefef">
+		<b>Last Season Results</b><br>
+		Record: <span id="lastSeasonRecord">0-0</span><br>
+		Money Earned: <span id="lastSeasonMoney">$0</span><br>
+		XP Gained: <span id="lastSeasonXp">0</span><br>
+	</td>
+	</tr>
+	</table>
+	
+	<p>
+	
+	<div id="startSeason">Next season starts in: <span id="countdownSec">5</span></div>
+	
+</td>
+<td valign="top">
+<b><u>Stats</u></b><br>
+Seasons: <span id="seasons">1</span><br>
+Total Games Played: <span id="totalGames">0</span><br>
+Overall Record: <span id="overallRecord">0-0 [0.000]</span><br>
+Total Money Earned: <span id="overallMoney">$0</span><br>
+</td>
+</tr>
+</table>
+
+</body>
+</html>
