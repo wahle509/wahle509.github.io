@@ -20,7 +20,7 @@ var expPlayerActive = false;
 var popPlayerActive = false;
 var managerEarnings = 1;
 var managerUpCost = 1000;
-var trainerUpCost = 2500;
+var trainerUpCost = 5000;
 var startCountdown;
 
 //End of Season Stats
@@ -244,8 +244,8 @@ function upgradeManager() {
 }
 
 function upgradeTrainer() {
-	if (totalMoney >= 5000) {
-		totalMoney -= 5000;
+	if (totalMoney >= trainerUpCost) {
+		totalMoney -= trainerUpCost;
 		document.getElementById("totalMoney").innerHTML = totalMoney.toFixed(2);
 		winChanceInc += 0.01;
 		document.getElementById("trainerText").innerHTML = "Trainers: " + winChanceInc + "xp/game";
