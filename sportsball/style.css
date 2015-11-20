@@ -2,24 +2,26 @@ body {font-family:Rockwell}
 table td, th{font-size:20}
 span, div {-moz-user-select: none; -webkit-user-select: none; cursor:default}
 progress {border-radius:3px; inset; height:20; width:99%; background-color:#f3f3f3; border:0}
-progress::-moz-progress-bar {background-color:steelblue}
-#levelUp {height:4}
-#levelUp::-moz-progress-bar {background-color:#5AAC56}
-#level {font-size:24}
+progress::-moz-progress-bar {background: -moz-linear-gradient(bottom right, steelblue, lightblue)}
+#levelUp {height:4; background-color:#cdcdcd}
+progress #levelUp::-moz-progress-bar {background-color: #5AAC56}
+#level {}
 
 #title {font-size:30}
-#money {cursor:pointer; border:1px solid green; padding:5}
-#money:hover {background-color:#8DCF8A}
-#totalMoney {cursor:pointer}
+#money {border:1px solid green; padding:5}
+#trophies {border:1px solid gold; padding:5}
+#chance {border:1px solid steelblue; padding:5}
 #top {border:1px solid #dedede; padding:5}
+td #total {background: -moz-linear-gradient(bottom right, #8DCF8A, #04B431)}
 
-#manager, #trainers {background-color:#efefef; padding:5; cursor:pointer}
-#managerText, #trainerText {cursor:pointer}
+#manager, #trainers, #expPlayer, #popPlayer {background-color:#efefef; padding:5; cursor:pointer}
+#managerText, #trainerText, #starText {cursor:pointer}
 #manager:hover, #trainers:hover {background-color:#8DCF8A}
 
-#upgradeManager, #upgradeTrainer {display:none; cursor:pointer; color:white}
-#upgradeManagerInfo, #upgradeTrainerInfo {color:black; font-style:italic; font-size:12; visibility:hidden; position:absolute; margin-top:25; margin-left:-50; background-color:#dedede; padding:3}
+#upgradeManager, #upgradeTrainer, #upgradeStar {display:none; cursor:pointer; color:white}
+#upgradeManagerInfo, #upgradeTrainerInfo, #upgradeStarInfo {color:black; font-style:italic; font-size:14; visibility:hidden; position:absolute; margin-top:25; margin-left:-50; background-color:#dedede; padding:3}
 #upgradeManager:hover #upgradeManagerInfo {visibility:visible}
 #upgradeTrainer:hover #upgradeTrainerInfo {visibility:visible}
+#upgradeStar:hover #upgradeStarInfo {visibility:visible}
 
 #startSeason {border:1px dashed #ababab; padding:5; display:none; width:500; text-align:center}

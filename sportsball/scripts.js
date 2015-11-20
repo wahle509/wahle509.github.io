@@ -7,7 +7,7 @@ var winChanceInc = 0.01;
 var gameNum = 1;
 var result = false;
 var level = 1;
-var nextLevel = 10;
+var nextLevel = 25;
 var previousLevel = 0;
 var seasons = 1;
 var totalWins = 0;
@@ -16,7 +16,11 @@ var totalGames = 0;
 var countdownSec = 5;
 var trainerActive = false;
 var managerActive = false;
+var expPlayerActive = false;
+var popPlayerActive = false;
 var managerEarnings = 1;
+var managerUpCost = 1000;
+var trainerUpCost = 2500;
 var startCountdown;
 
 //End of Season Stats
@@ -30,24 +34,7 @@ function timer() {timerS = setInterval(oneS,1000);}
 function oneS() {
 	if (seconds < 5) {
 		seconds++;
-		switch(gameNum) {
-			case 1:
-				document.getElementById("game1").value = seconds;
-				break;
-			case 2:
-				document.getElementById("game2").value = seconds;
-				break;
-			case 3:
-				document.getElementById("game3").value = seconds;
-				break;
-			case 4:
-				document.getElementById("game4").value = seconds;
-				break;
-			case 5:
-				document.getElementById("game5").value = seconds;
-				break;
-		}
-		
+		document.getElementById("game" + gameNum).value = seconds;	
 	} else {
 		gameResult();
 		seconds = 0;
@@ -55,13 +42,25 @@ function oneS() {
 	
 	document.getElementById("overallMoney").innerHTML = "$" + overallMoney;
 	
+	//Manager Available
 	if (totalMoney >= 50 && managerActive == false) {
-		document.getElementById("manager").style.backgroundColor = "yellow";
-	} else {document.getElementById("manager").style.backgroundColor = "#efefef";}
+		document.getElementById("manager").style.backgroundColor = "#F3F781";
+	} else if (totalMoney < 50 && managerActive == false) {document.getElementById("manager").style.backgroundColor = "#efefef";}
 	
-	if (totalMoney >= 100 && trainerActive == false) {
-		document.getElementById("trainers").style.backgroundColor = "yellow";
-	} else {document.getElementById("trainer").style.backgroundColor = "#efefef";}
+	//Trainers Available
+	if (totalMoney >= 250 && trainerActive == false) {
+		document.getElementById("trainers").style.backgroundColor = "#F3F781";
+	} else if (totalMoney < 250 && trainerActive == false) {document.getElementById("trainers").style.backgroundColor = "#efefef";}
+	
+	//Exp Player Available
+	if (level >= 5 && totalMoney >= 5000 && expPlayerActive == false) {
+		document.getElementById("expPlayer").style.backgroundColor = "#F3F781";
+	} else if (totalMoney < 5000 && expPlayerActive == false) {document.getElementById("expPlayer").style.backgroundColor = "#efefef";}
+	
+	//Popular Player Available
+	if (level >= 8 && totalMoney >= 10000 && popPlayerActive == false) {
+		document.getElementById("popPlayer").style.backgroundColor = "#F3F781";
+	} else if (totalMoney < 10000 && popPlayerActive == false) {document.getElementById("popPlayer").style.backgroundColor = "#efefef";}
 }
 
 function gameResult() {
@@ -71,9 +70,9 @@ function gameResult() {
 		//Game Won
 		result = true;
 		xp += 5;
-		document.getElementById("totalXp").innerHTML = xp;
+		document.getElementById("totalXp").innerHTML = xp.toFixed(2);
 		totalMoney += 10;
-		document.getElementById("totalMoney").innerHTML = totalMoney;
+		document.getElementById("totalMoney").innerHTML = totalMoney.toFixed(2);
 		seasonMoney += 10;
 		overallMoney += 10;
 		seasonXp += 5;
@@ -83,9 +82,9 @@ function gameResult() {
 		//Game Lost
 		result = false;
 		xp += 1;
-		document.getElementById("totalXp").innerHTML = xp;
+		document.getElementById("totalXp").innerHTML = xp.toFixed(2);
 		totalMoney += 5;
-		document.getElementById("totalMoney").innerHTML = totalMoney;
+		document.getElementById("totalMoney").innerHTML = totalMoney.toFixed(2);
 		seasonMoney += 5;
 		overallMoney += 5;
 		seasonXp += 1;
@@ -118,78 +117,47 @@ function checkXp() {
 	}
 }
 
-function displayResult(num) {
-	switch(num) {
-		case 1: 
-			if (result == true) {
-				document.getElementById("game1Result").innerHTML = "Win";
-				document.getElementById("game1Result").style.color = "green";
-			} else {
-				document.getElementById("game1Result").innerHTML = "Lose";
-				document.getElementById("game1Result").style.color = "red";
-			}
-			gameNum++;
-			break;
-		case 2:
-			if (result == true) {
-				document.getElementById("game2Result").innerHTML = "Win";
-				document.getElementById("game2Result").style.color = "green";
-			} else {
-				document.getElementById("game2Result").innerHTML = "Lose";
-				document.getElementById("game2Result").style.color = "red";
-			}
-			gameNum++;
-			break;
-		case 3:
-			if (result == true) {
-				document.getElementById("game3Result").innerHTML = "Win";
-				document.getElementById("game3Result").style.color = "green";
-			} else {
-				document.getElementById("game3Result").innerHTML = "Lose";
-				document.getElementById("game3Result").style.color = "red";
-			}
-			gameNum++;
-			break;
-		case 4:
-			if (result == true) {
-				document.getElementById("game4Result").innerHTML = "Win";
-				document.getElementById("game4Result").style.color = "green";
-			} else {
-				document.getElementById("game4Result").innerHTML = "Lose";
-				document.getElementById("game4Result").style.color = "red";
-			}
-			gameNum++;
-			break;
-		case 5:
-			if (result == true) {
-				document.getElementById("game5Result").innerHTML = "Win";
-				document.getElementById("game5Result").style.color = "green";
-			} else {
-				document.getElementById("game5Result").innerHTML = "Lose";
-				document.getElementById("game5Result").style.color = "red";
-			}
+function displayResult(num) { 
+	if (result == true) {
+		document.getElementById("game" + num + "Result").innerHTML = "Win";
+		document.getElementById("game" + num + "Result").style.color = "green";
+		document.getElementById("game" + num + "Exp").innerHTML = 5;
+		document.getElementById("game" + num + "Money").innerHTML = "$" + 10;
+	} else {
+		document.getElementById("game" + num + "Result").innerHTML = "Lose";
+		document.getElementById("game" + num + "Result").style.color = "red";
+		document.getElementById("game" + num + "Exp").innerHTML = 1;
+		document.getElementById("game" + num + "Money").innerHTML = "$" + 5;
+	}
+	
+	if (num < 10) {gameNum++;}
+		else {
 			clearTimeout(timerS);
 			endSeason();
-			break;				
-	}
-	
+		}
+
 	if (trainerActive == true) {
-		winChance += winChanceInc;
-		document.getElementById("winChance").innerHTML = winChance.toFixed(2) + "%";
-	}
-	
+		xp += 0.01;
+		document.getElementById("totalXp").innerHTML = xp.toFixed(2);
+	}	
 }
 
 function endSeason() {
 	document.getElementById("seasonRecord").innerHTML = seasonWin + "-" + seasonLoss;
 	document.getElementById("seasonMoney").innerHTML = "$" + seasonMoney;
 	document.getElementById("seasonXp").innerHTML = seasonXp;
-	document.getElementById("startSeason").style.display = "block";
-	document.getElementById("currentSeason").style.backgroundColor = "#8DCF8A";
-	setTimeout(startSeason, 5000);
-	startCountdown = setInterval(countdown, 1000);
+	
+	if (seasonWin < 10) {
+		document.getElementById("startSeason").style.display = "block";
+		setTimeout(startSeason, 5000);
+		startCountdown = setInterval(countdown, 1000);
+	} else {
+		perfectSeason();		
+	}
+	
 }
 
+//Next Season Countdown
 function countdown() {
 	if (countdownSec > 0) {
 		countdownSec--;
@@ -199,7 +167,6 @@ function countdown() {
 		document.getElementById("countdownSec").innerHTML = countdownSec;
 		clearInterval(startCountdown);
 	}
-
 }
 
 function startSeason() {
@@ -207,16 +174,16 @@ function startSeason() {
 	seasons++;
 	document.getElementById("seasons").innerHTML = seasons;
 	
-	document.getElementById("game1").value = 0;
-	document.getElementById("game2").value = 0;
-	document.getElementById("game3").value = 0;
-	document.getElementById("game4").value = 0;
-	document.getElementById("game5").value = 0;
-	document.getElementById("game1Result").innerHTML = "";
-	document.getElementById("game2Result").innerHTML = "";
-	document.getElementById("game3Result").innerHTML = "";
-	document.getElementById("game4Result").innerHTML = "";
-	document.getElementById("game5Result").innerHTML = "";
+	var x=1;
+	while (x < 11) {
+		document.getElementById("game" + x).value = 0;
+		document.getElementById("game" + x + "Result").innerHTML = "";
+		document.getElementById("game" + x + "Exp").innerHTML = "";
+		document.getElementById("game" + x + "Money").innerHTML = "";
+		x++;
+	}
+	x=1;
+
 	gameNum = 1;
 	
 	document.getElementById("lastSeasonRecord").innerHTML = seasonWin + "-" + seasonLoss;
@@ -233,10 +200,13 @@ function startSeason() {
 	timer();
 }
 
+function perfectSeason() {
+		
+}
+
 function gainMoney() {
 	totalMoney += managerEarnings;
-	overallMoney += managerEarnings;
-	document.getElementById("totalMoney").innerHTML = totalMoney;
+	document.getElementById("totalMoney").innerHTML = totalMoney.toFixed(2);
 }
 
 function hireManager() {
@@ -245,37 +215,61 @@ function hireManager() {
 		document.getElementById("managerText").innerHTML = "Manager: $1/s";
 		document.getElementById("manager").style.backgroundColor = "#8DCF8A";
 		totalMoney -= 50;
-		document.getElementById("totalMoney").innerHTML = totalMoney;
+		document.getElementById("totalMoney").innerHTML = totalMoney.toFixed(2);
 		managerActive = true;
 		document.getElementById("upgradeManager").style.display = "block";
 	}	
 }
 
 function hireTrainer() {
-	if (totalMoney >= 100) {
+	if (totalMoney >= 250 && trainerActive == false) {
 		document.getElementById("trainerText").innerHTML = "Trainers: 0.01xp/game";
 		document.getElementById("trainers").style.backgroundColor = "#8DCF8A";
-		totalMoney -= 100;
-		document.getElementById("totalMoney").innerHTML = totalMoney;
+		totalMoney -= 250;
+		document.getElementById("totalMoney").innerHTML = totalMoney.toFixed(2);
 		trainerActive = true;
 		document.getElementById("upgradeTrainer").style.display = "block";
 	}
 }
 
 function upgradeManager() {
-	if (totalMoney >= 1000) {
-		totalMoney -= 1000;
-		document.getElementById("totalMoney").innerHTML = totalMoney;
+	if (totalMoney >= managerUpCost) {
+		totalMoney -= managerUpCost;
+		document.getElementById("totalMoney").innerHTML = totalMoney.toFixed(2);
 		managerEarnings++;
 		document.getElementById("managerText").innerHTML = "Manager: $" + managerEarnings + "/s";
+		managerUpCost *= 1.5;
+		document.getElementById("managerUpCost").innerHTML = "$" + managerUpCost.toFixed(2);
 	}
 }
 
 function upgradeTrainer() {
-	if (totalMoney >= 2500) {
-		totalMoney -= 2500;
-		document.getElementById("totalMoney").innerHTML = totalMoney;
+	if (totalMoney >= 5000) {
+		totalMoney -= 5000;
+		document.getElementById("totalMoney").innerHTML = totalMoney.toFixed(2);
 		winChanceInc += 0.01;
-		document.getElementById("trainerText").innerHTML = "Trainers:" + winChanceInc + "xp/games";
+		document.getElementById("trainerText").innerHTML = "Trainers: " + winChanceInc + "xp/game";
+		trainerUpCost *= 1.5;
+		document.getElementById("trainerUpCost").innerHTML = "$" + trainerUpCost.toFixed(2);
+	}
+}
+
+function selectStar(star) {
+	switch (star) {
+		case exp:
+			if (totalMoney >= 5000 && expPlayerActive == false) {
+				document.getElementById("expPlayerText").innerHTML = "Experienced Player: Lvl 1";
+				document.getElementById("manager").style.backgroundColor = "#8DCF8A";
+				totalMoney -= 5000;
+				document.getElementById("totalMoney").innerHTML = totalMoney.toFixed(2);
+				expPlayerActive = true;
+				document.getElementById("upgradeExpStar").style.display = "block";
+			}
+			break;
+		case pop:
+			if (totalMoney >= 10000 && popPlayerActive == false) {
+				
+			}
+			break;
 	}
 }

@@ -18,56 +18,87 @@
 
 <body onLoad="timer()">
 <span id="title">Sportsball Champion</span>
-<hr>
+<hr color="green">
 
 <p>
 
 <table cellpadding="10" border="0" width="100%">
 <tr>
 <td valign="top" width="250">
-	<div id="money" onClick="gainMoney()">Money: $<span id="totalMoney">0</span></div>
+	<div id="money">Money: $<span id="totalMoney">0.00</span></div>
 	<p>
-	<div id="top">Win Chance: <span id="winChance">5%</span></div>
+	<div id="trophies">Trophies: <span id="numTrophies">0</span></div>
+	<p>
+	<div id="chance">Win Chance: <span id="winChance">5%</span></div>
 	<p>
 	<div id="manager" onClick="hireManager()">
 		<table cellspacing="0" width="100%"><tr><td>
 		<span id="managerText">
 			Hire Manager<br>
-			<small>+$1/s [$50]</small>
+			<small><small>+$1.00/s for $50</small></small>
 		</span>
 		</td><td align="right">
 			<span id="upgradeManager" onclick="upgradeManager()">
-				<span id="upgradeManagerInfo">Upgrade your manager with an additional $1/s for $1,000</span>
+				<span id="upgradeManagerInfo">Upgrade your manager with an additional $1/s for <span id="managerUpCost">$1,000</span></span>
 				+
 			</span>
-		</td>
-		</tr></table>
+		</td></tr></table>
 	</div>
 	<p>
 	<div id="trainers" onclick="hireTrainer()">
 		<table cellspacing="0" width="100%"><tr><td>
 		<span id="trainerText">
 			Hire Trainers<br>
-			<small>+0.01 xp/game [$100]</small>
+			<small><small>+0.01 xp/game for $250</small></small>
 		</span>
 		</td><td>
 			<span id="upgradeTrainer" onclick="upgradeTrainer()">
-				<span id="upgradeTrainerInfo">Upgrade your trainers with an additional 1% xp/game for $2,500</span>
+				<span id="upgradeTrainerInfo">Upgrade your trainers with an additional .01 xp/game for <span id="trainerUpCost">$1,000</span></span>
 				+
 			</span>
-		</td>
-		</tr></table>
+		</td></tr></table>
+	</div>
+	<p>
+	<div id="expPlayer" onclick="selectStar(exp)">
+		<table cellspacing="0" width="100%"><tr><td>
+		<span id="expPlayerText">
+			Experienced Player<br>
+			<small><small>Boost Exp/Game<br>
+			Requires: Level 5 & $5,000</small></small>
+		</span>
+		</td><td>
+			<span id="upgradeStar" onclick="upgradeStar(exp)">
+				<span id="upgradeStarInfo">Upgrade player to boost exp/game for $25,000</span>
+				+
+			</span>
+		</td></tr></table>
+	</div>
+	<p>
+	<div id="popPlayer" onclick="selectStar(pop)">
+		<table cellspacing="0" width="100%"><tr><td>
+		<span id="popPlayerText">
+			Popular Player<br>
+			<small><small>Boost Money/Game<br>
+			Requires: Level 8 & $10,000</small></small>
+		</span>
+		</td><td>
+			<span id="upgradeStar" onclick="upgradeStar(pop)">
+				<span id="upgradeStarInfo">Upgrade player to boost money/game for $50,000</span>
+				+
+			</span>
+		</td></tr></table>
 	</div>
 </td>
 
 <td align="center">
-	<table width="650">
+	<table width="650" border="0" cellspacing="0">
 	<tr>
+	<td width="150">League: <span id="league">None</span></td>
 	<td>Level: <span id="level">1</span></td>
 	<td>
 		<div id="top">
-			 XP: <span id="totalXp">0</span><br>
-			<progress id="levelUp" value="0" min="0" max="10"></progress>
+			 XP: <span id="totalXp">0.00</span><br>
+			<progress id="levelUp" value="0" min="0" max="25"></progress>
 		</div>
 	</td>
 	</tr>
@@ -77,52 +108,83 @@
 
 	<!-- Game Progress -->
 	<table id="tGames" border="1" width="650" cellspacing="0" cellpadding="5">
-	<tr><th width="20">Game</th><th width="30">Result</th><th>Progress</th></tr>
+	<tr><th width="20">Game</th><th>Progress</th><th width="30">Result</th><th width="25">Exp</th><th width="75">Money</th></tr>
 	<tr>
 		<td align="center">1</td>
-		<td align="center"><span id="game1Result"></span></td>
 		<td><progress min="0" max="5" value="0" id="game1"></progress></td>
+		<td align="center"><span id="game1Result"></span></td>
+		<td align="center"><span id="game1Exp"></span></td>
+		<td align="center"><span id="game1Money"></span></td>
 	</tr>
 	<tr>
 		<td align="center">2</td>
-		<td align="center"><span id="game2Result"></span></td>
 		<td><progress min="0" max="5" value="0" id="game2"></progress></td>
+		<td align="center"><span id="game2Result"></span></td>		
+		<td align="center"><span id="game2Exp"></span></td>
+		<td align="center"><span id="game2Money"></span></td>
 	</tr>
 	<tr>
 		<td align="center">3</td>
-		<td align="center"><span id="game3Result"></span></td>
 		<td><progress min="0" max="5" value="0" id="game3"></progress></td>
+		<td align="center"><span id="game3Result"></span></td>
+		<td align="center"><span id="game3Exp"></span></td>
+		<td align="center"><span id="game3Money"></span></td>
 	</tr>
 	<tr>
 		<td align="center">4</td>
-		<td align="center"><span id="game4Result"></span></td>
 		<td><progress min="0" max="5" value="0" id="game4"></progress></td>
+		<td align="center"><span id="game4Result"></span></td>		
+		<td align="center"><span id="game4Exp"></span></td>
+		<td align="center"><span id="game4Money"></span></td>
 	</tr>
 	<tr>
 		<td align="center">5</td>
-		<td align="center"><span id="game5Result"></span></td>
 		<td><progress min="0" max="5" value="0" id="game5"></progress></td>
+		<td align="center"><span id="game5Result"></span></td>		
+		<td align="center"><span id="game5Exp"></span></td>
+		<td align="center"><span id="game5Money"></span></td>
 	</tr>
-	</table>
-	
-	<p>
-	
-	<table cellpadding="5" width="650">
 	<tr>
-	<td bgcolor="#8DCF8A">
-		<div id="currentSeason">
-		<b>This Season Results</b><br>
-		Record: <span id="seasonRecord">0-0</span><br>
-		Money Earned: <span id="seasonMoney">$0</span><br>
-		XP Gained: <span id="seasonXp">0</span><br>
-		</div>
-	</td>
-	<td bgcolor="#efefef">
-		<b>Last Season Results</b><br>
-		Record: <span id="lastSeasonRecord">0-0</span><br>
-		Money Earned: <span id="lastSeasonMoney">$0</span><br>
-		XP Gained: <span id="lastSeasonXp">0</span><br>
-	</td>
+		<td align="center">6</td>
+		<td><progress min="0" max="5" value="0" id="game6"></progress></td>
+		<td align="center"><span id="game6Result"></span></td>		
+		<td align="center"><span id="game6Exp"></span></td>
+		<td align="center"><span id="game6Money"></span></td>
+	</tr>
+	<tr>
+		<td align="center">7</td>
+		<td><progress min="0" max="5" value="0" id="game7"></progress></td>
+		<td align="center"><span id="game7Result"></span></td>		
+		<td align="center"><span id="game7Exp"></span></td>
+		<td align="center"><span id="game7Money"></span></td>
+	</tr>
+	<tr>
+		<td align="center">8</td>
+		<td><progress min="0" max="5" value="0" id="game8"></progress></td>
+		<td align="center"><span id="game8Result"></span></td>		
+		<td align="center"><span id="game8Exp"></span></td>
+		<td align="center"><span id="game8Money"></span></td>
+	</tr>
+	<tr>
+		<td align="center">9</td>
+		<td><progress min="0" max="5" value="0" id="game9"></progress></td>
+		<td align="center"><span id="game9Result"></span></td>		
+		<td align="center"><span id="game9Exp"></span></td>
+		<td align="center"><span id="game9Money"></span></td>
+	</tr>
+	<tr>
+		<td align="center">10</td>
+		<td><progress min="0" max="5" value="0" id="game10"></progress></td>
+		<td align="center"><span id="game10Result"></span></td>		
+		<td align="center"><span id="game10Exp"></span></td>
+		<td align="center"><span id="game10Money"></span></td>
+	</tr>
+	<tr id="total">
+		<td align="center">Total</td>
+		<td></td>
+		<td align="center"><span id="seasonRecord"></span></td>
+		<td align="center"><span id="seasonXp"></span></td>
+		<td align="center"><span id="seasonMoney"></span></td>
 	</tr>
 	</table>
 	
@@ -132,11 +194,20 @@
 	
 </td>
 <td valign="top">
-<b><u>Stats</u></b><br>
+<b><u>Overall Stats</u></b><br>
 Seasons: <span id="seasons">1</span><br>
-Total Games Played: <span id="totalGames">0</span><br>
-Overall Record: <span id="overallRecord">0-0 [0.000]</span><br>
-Total Money Earned: <span id="overallMoney">$0</span><br>
+Games Played: <span id="totalGames">0</span><br>
+Record: <span id="overallRecord">0-0 [0.000]</span><br>
+Money Earned: <span id="overallMoney">$0</span><br>
+<p>
+<b><u>Last Season Results</u></b><br>
+Record: <span id="lastSeasonRecord">0-0</span><br>
+Money Earned: <span id="lastSeasonMoney">$0</span><br>
+XP Gained: <span id="lastSeasonXp">0</span><br>
+<p>
+<b><u>Earnings/Game</u></b><br>
+Win Gains: 5xp, $10<br>
+Lose Gains: 1xp, $5<br>
 </td>
 </tr>
 </table>
