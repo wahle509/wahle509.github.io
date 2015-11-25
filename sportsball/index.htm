@@ -20,8 +20,6 @@
 <span id="title">Sportsball Champion</span>
 <hr color="green">
 
-<p>
-
 <table cellpadding="10" border="0" width="100%">
 <tr>
 <td valign="top" width="250">
@@ -39,7 +37,7 @@
 		</span>
 		</td><td align="right">
 			<span id="upgradeManager" onclick="upgradeManager()">
-				<span id="upgradeManagerInfo">Upgrade your manager with an additional $1/s for <span id="managerUpCost">$1,000</span></span>
+				<span id="upgradeManagerInfo">Upgrade your manager with an additional $1/s for <span id="managerUpCost">$500</span></span>
 				+
 			</span>
 		</td></tr></table>
@@ -90,21 +88,19 @@
 	</div>
 </td>
 
-<td align="center">
+<td align="center" valign="top">
 	<table width="650" border="0" cellspacing="0">
 	<tr>
 	<td width="150">League: <span id="league">None</span></td>
 	<td>Level: <span id="level">1</span></td>
 	<td>
 		<div id="top">
-			 XP: <span id="totalXp">0.00</span><br>
+			 XP: <span id="totalXp">0.00</span> / <span id="nextLevel">0.00</span><br>
 			<progress id="levelUp" value="0" min="0" max="25"></progress>
 		</div>
 	</td>
 	</tr>
 	</table>
-
-	<p>
 
 	<!-- Game Progress -->
 	<table id="tGames" border="1" width="650" cellspacing="0" cellpadding="5">
@@ -195,7 +191,7 @@
 </td>
 <td valign="top">
 <b><u>Overall Stats</u></b><br>
-Seasons: <span id="seasons">1</span><br>
+Season: <span id="seasons">1</span><br>
 Games Played: <span id="totalGames">0</span><br>
 Record: <span id="overallRecord">0-0 [0.000]</span><br>
 Money Earned: <span id="overallMoney">$0</span><br>
@@ -208,6 +204,16 @@ XP Gained: <span id="lastSeasonXp">0</span><br>
 <b><u>Earnings/Game</u></b><br>
 Win Gains: 5xp, $10<br>
 Lose Gains: 1xp, $5<br>
+<p>
+<b><u>Goals</u></b><br>
+Win 10 Games <span id="trophy">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<p>
+<b><u>Options</u></b><br>
+<span id="deleteData" onClick="document.getElementById('resetConfirm').style.visibility='visible'">Hard Reset</span><br>
+<div id="resetConfirm">
+All data will be lost, are you sure?<br>
+<span id="resetYes" onClick="deleteData()">Yes</span>&nbsp;&nbsp;&nbsp;<span id="resetNo" onClick="document.getElementById('resetConfirm').style.visibility='hidden'">No</span>
+</div>
 </td>
 </tr>
 </table>
