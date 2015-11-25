@@ -366,6 +366,7 @@ function displayData() {
 }
 
 function deleteData() {
+	localStorage.clear();
 	totalMoney = 0;
 	overallMoney = 0;
 	xp = 0;
