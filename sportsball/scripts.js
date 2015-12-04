@@ -972,7 +972,7 @@ function trophy(t) {
 			}
 			break;
 		case "r9":
-			if (rank >= 9 && trophiesClaimed[3] == false) {
+			if (document.getElementById("rankTrophy").innerHTML != "&nbsp;" && trophiesClaimed[3] == false) {
 				gainTrophy();
 				document.getElementById('rankTrophy').style.backgroundColor = "<img src='check.png'>";
 				trophiesClaimed[3] = true;
