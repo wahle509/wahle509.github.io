@@ -17,83 +17,94 @@
 </head>
 
 <body onLoad="timer()">
-<span id="title">Sportsball Champion</span>
+<table width="100%" cellpadding="2"><tr><td>
+<span id="title">Sportsball Champion</span>&nbsp;&nbsp;<span id="version">v0.2.0</span>
+</td><td width="200">
+<div id="money">Money: $<span id="totalMoney">0.00</span></div>	
+</td><td width="200">
+<div id="trophies">Trophies: <span id="numTrophies">0</span></div>	
+</td><td width="200">
+<div id="chance">Win Chance: <span id="winChance">25%</span></div>
+</td></tr></table>
 <hr color="green">
 
-<table cellpadding="10" border="0" width="100%">
+<table cellpadding="5" border="0" width="100%">
 <tr>
-<td valign="top" width="250">
-	<div id="money">Money: $<span id="totalMoney">0.00</span></div>
-	<p>
-	<div id="trophies">Trophies: <span id="numTrophies">0</span></div>
-	<p>
-	<div id="chance">Win Chance: <span id="winChance">5%</span></div>
-	<p>
+<td valign="top" width="285" id="left">
+	<div id="staffPlayers">
+	<span id="leftTitle">Staff & Players</span><br>
 	<div id="manager" onClick="hireManager()">
 		<table cellspacing="0" width="100%"><tr><td>
 		<span id="managerText">
 			Hire Manager<br>
 			<small><small>+$1.00/s for $50</small></small>
-		</span>
-		</td><td align="right">
-			<span id="upgradeManager" onclick="upgradeManager()">
-				<span id="upgradeManagerInfo">Upgrade your manager with an additional $1/s for <span id="managerUpCost">$500</span></span>
-				+
-			</span>
+		</span><br>
+		<span id="managerInfo">Level: <span id="managerLevel">1</span> | Upgrade: <span id="managerUpCost">$250</span></span>
+		</td><td align="center" width="25">
+			<span id="upgradeManager" onclick="upgradeManager()">+</span>
 		</td></tr></table>
 	</div>
-	<p>
+	
 	<div id="trainers" onclick="hireTrainer()">
 		<table cellspacing="0" width="100%"><tr><td>
 		<span id="trainerText">
 			Hire Trainers<br>
-			<small><small>+0.01 xp/game for $250</small></small>
-		</span>
-		</td><td>
-			<span id="upgradeTrainer" onclick="upgradeTrainer()">
-				<span id="upgradeTrainerInfo">Upgrade your trainers with an additional .01 xp/game for <span id="trainerUpCost">$5,000</span></span>
-				+
-			</span>
+			<small><small>+0.1 xp/game for $250</small></small>
+		</span><br>
+		<span id="trainerInfo">Level: <span id="trainerLevel">1</span> | Upgrade: <span id="trainerUpCost">$1.00K</span></span>
+		</td><td align="center" width="25">
+			<span id="upgradeTrainer" onclick="upgradeTrainer()">+</span>
 		</td></tr></table>
 	</div>
-	<p>
-	<div id="expPlayer" onclick="selectStar(exp)">
+	
+	<div id="expPlayer" onclick="selectStar('exp')">
 		<table cellspacing="0" width="100%"><tr><td>
 		<span id="expPlayerText">
 			Experienced Player<br>
 			<small><small>Boost Exp/Game<br>
-			Requires: Level 5 & $5,000</small></small>
-		</span>
-		</td><td>
-			<span id="upgradeExpStar" onclick="upgradeStar(exp)">
-				<span id="upgradeStarInfo">Upgrade player to boost exp/game for $25,000</span>
-				+
-			</span>
+			Requires: League V & $2,500</small></small>
+		</span><br>
+		<span id="expPlayerInfo">Level: <span id="expPlayerLevel">1</span> | Upgrade: $<span id="expStarUpCost">25.00K</span></span>
+		</td><td align="center" width="25">
+			<span id="upgradeExpStar" onclick="upgradeStar('exp')">+</span>
 		</td></tr></table>
 	</div>
-	<p> 
-	<div id="popPlayer" onclick="selectStar(pop)">
+	 
+	<div id="popPlayer" onclick="selectStar('pop')">
 		<table cellspacing="0" width="100%"><tr><td>
 		<span id="popPlayerText">
 			Popular Player<br>
 			<small><small>Boost Money/Game<br>
-			Requires: Level 8 & $10,000</small></small>
-		</span>
-		</td><td>
-			<span id="upgradePopStar" onclick="upgradeStar(pop)">
-				<span id="upgradeStarInfo">Upgrade player to boost money/game for $50,000</span>
-				+
-			</span>
+			Requires: League V & $2,500</small></small>
+		</span><br>
+		<span id="popPlayerInfo">Level: <span id="popPlayerLevel">1</span> | Upgrade: $<span id="popStarUpCost">50.00K</span></span>
+		</td><td align="center" width="25">
+			<span id="upgradePopStar" onclick="upgradeStar('pop')">+</span>
 		</td></tr></table>
+	</div>
+	</div>
+	
+	<p>
+	
+	<div id="trophyUpgrades">
+	<span id="leftTitle">Trophy Upgrades</span><br>
+	<div id="mascot" onclick="trophyUpgrade('mascot')">
+		Mascot<br>
+		<small><small>Add 5% to Win Chance for 5 trophies</small></small>
+	</div>
+	
+	<div id="uniforms" onclick="trophyUpgrade('uniforms')">
+		New Uniforms<br>
+		<small><small>Additional 5% to $ & XP for 5 trophies</small></small>
+	</div>
 	</div>
 </td>
 
 <td align="center" valign="top">
 	<table width="650" border="0" cellspacing="0">
 	<tr>
-	<td width="150">League: <span id="league">None</span></td>
-	<td>Level: <span id="level">1</span></td>
-	<td>
+	<td><span id="levelText">League: <span id="level">I</span></span></td>
+	<td width="470">
 		<div id="top">
 			 XP: <span id="totalXp">0.00</span> / <span id="nextLevel">0.00</span><br>
 			<progress id="levelUp" value="0" min="0" max="25"></progress>
@@ -189,30 +200,69 @@
 	<div id="startSeason">Next season starts in: <span id="countdownSec">5</span></div>
 	
 </td>
-<td valign="top">
-<b><u>Overall Stats</u></b><br>
-Season: <span id="seasons">1</span><br>
-Games Played: <span id="totalGames">0</span><br>
-Record: <span id="overallRecord">0-0 [0.000]</span><br>
-Money Earned: <span id="overallMoney">$0</span><br>
-<p>
-<b><u>Last Season Results</u></b><br>
-Record: <span id="lastSeasonRecord">0-0</span><br>
-Money Earned: <span id="lastSeasonMoney">$0</span><br>
-XP Gained: <span id="lastSeasonXp">0</span><br>
-<p>
-<b><u>Earnings/Game</u></b><br>
-Win Gains: 5xp, $10<br>
-Lose Gains: 1xp, $5<br>
-<p>
-<b><u>Goals</u></b><br>
-Win 10 Games <span id="trophy">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<p>
-<b><u>Options</u></b><br>
-<span id="deleteData" onClick="document.getElementById('resetConfirm').style.visibility='visible'">Hard Reset</span><br>
-<div id="resetConfirm">
-All data will be lost, are you sure?<br>
-<span id="resetYes" onClick="deleteData()">Yes</span>&nbsp;&nbsp;&nbsp;<span id="resetNo" onClick="document.getElementById('resetConfirm').style.visibility='hidden'">No</span>
+<td valign="top" width="300">
+<span id="statsTab" onclick="tabs(1)">Stats</span> <span id="rankTab" onclick="tabs(4)">Rank</span> <span id="goalsTab" onclick="tabs(2)">Goals</span> <span id="optionsTab" onclick="tabs(3)">Options</span><br>
+<div id="stats">
+	<small>
+	<b><u>Overall</u></b><br>
+	Season: <span id="seasons">1</span><br>
+	Games Played: <span id="totalGames">0</span><br>
+	Record: <span id="overallRecord">0-0 [0.000]</span><br>
+	Current Rank: <span id="currentRank">N/A</span><br>
+	Money Earned: <span id="overallMoney">$0</span><br>
+	<p>
+	<b><u>Last Season Results</u></b><br>
+	Record: <span id="lastSeasonRecord">0-0</span><br>
+	Money Earned: <span id="lastSeasonMoney">$0</span><br>
+	XP Gained: <span id="lastSeasonXp">0</span><br>
+	<p>
+	<b><u>Earnings/Game</u></b><br>
+	Win Gains: <span id="winExp">5</span>xp, $<span id="winMoney">10</span><br>
+	Lose Gains: <span id="loseExp">2.5</span>xp, $<span id="loseMoney">5</span><br>
+	</small>
+</div>
+	
+<div id="rank">
+	<table id="rankT" width="200" cellpadding="2" cellspacing="0">
+	<tr align="left"><td><b>#</b></td><td><b>Record</b></td></tr>
+	<tr id ="r1"><td>1</td><td>0.925</td></tr>
+	<tr id ="r2"><td>2</td><td>0.810</td></tr>
+	<tr id ="r3"><td>3</td><td>0.690</td></tr>
+	<tr id ="r4"><td>4</td><td>0.600</td></tr>
+	<tr id ="r5"><td>5</td><td>0.500</td></tr>
+	<tr id ="r6"><td>6</td><td>0.450</td></tr>
+	<tr id ="r7"><td>7</td><td>0.390</td></tr>
+	<tr id ="r8"><td>8</td><td>0.333</td></tr>
+	<tr id ="r9"><td>9</td><td>0.290</td></tr>
+	<tr id="r10"><td>10</td><td>0.250</td></tr>
+	</table>
+	<span id="rankInfo"><small><small><i>Ranking begins after 5 seasons.</i></small></small></span>
+</div>
+	
+<div id="goals">
+	<small>Tier 1</small><br>
+	<table id="goalsT" width="200">
+	<tr><td>Win 100 Games</td><td><span id="winsTrophy" onClick="trophy('w100')">&nbsp;</span></td></tr>
+	<tr><td>Reach League X</td><td><span id="levelTrophy" onClick="trophy('lx')">&nbsp;</span></td></tr>
+	<tr><td>Win Chance > 33%</td><td><span id="chanceTrophy" onClick="trophy('c33')">&nbsp;</span></td></tr>
+	<tr><td>Reach Rank #9</td><td><span id="rankTrophy" onClick="trophy('r9')">&nbsp;</td></tr>
+	<tr><td>Manager at Level 10</td><td><span id="managerTrophy" onClick="trophy('m10')">&nbsp;</span></td></tr>
+	</table>
+</div>
+
+<div id="options">
+	<small><small>
+	Developed & Designed by: Erich
+	<p>
+	Change Log
+	<p>
+	<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
+	</small></small><p>
+	<span id="deleteData" onClick="document.getElementById('resetConfirm').style.visibility='visible'">Hard Reset</span><p>
+	<div id="resetConfirm">
+	All data will be lost, are you sure?<br>
+	<span id="resetYes" onClick="deleteData()">Yes</span>&nbsp;&nbsp;&nbsp;<span id="resetNo" onClick="document.getElementById('resetConfirm').style.visibility='hidden'">No</span>
+	</div>
 </div>
 </td>
 </tr>

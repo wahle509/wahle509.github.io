@@ -8,24 +8,38 @@ progress #levelUp::-moz-progress-bar {background-color: #5AAC56}
 #level {}
 
 #title {font-size:30}
-#money {border:1px solid green; padding:5}
-#trophies {border:1px solid gold; padding:5}
-#trophy {padding:0; border:1px solid gold; cursor:pointer}
-#chance {border:1px solid steelblue; padding:5}
+#version {font-size:16}
+#money {border:1px solid green; padding:5; box-shadow: 1px 1px 1px green}
+#trophies {border:1px solid gold; padding:5; box-shadow: 1px 1px 1px orange}
+#chance {border:1px solid steelblue; padding:5; box-shadow: 1px 1px 1px steelblue}
+#winsTrophy, #levelTrophy, #chanceTrophy, #rankTrophy, #managerTrophy {padding:0; cursor:pointer}
 #top {padding:5}
-td #total {background: -moz-linear-gradient(bottom right, #8DCF8A, #04B431)}
+td #total {background: -moz-linear-gradient(bottom right, #3CBC3C, #8DCF8A)}
 
-#manager, #trainers, #expPlayer, #popPlayer {background-color:#efefef; padding:5; cursor:pointer}
+#tGames tr td, #tGames th, table #tGames {border:1px solid #ababab}
+
+#left div {margin-bottom:7px}
+#leftTitle {font-size:24}
+
+#levelText {font-size:25}
+
+#staffPlayers {background-color:#FFFFFF; padding:5}
+#trophyUpgrades {background-color:#FFFFFF; padding:5}
+
+#manager, #trainers, #expPlayer, #popPlayer, #mascot, #uniforms {background-color:#efefef; padding:5; cursor:pointer}
 #managerText, #trainerText, #expPlayerText, #popPlayerText {cursor:pointer}
 #manager:hover, #trainers:hover {background-color:#8DCF8A}
 
-#upgradeManager, #upgradeTrainer, #upgradePopStar, #upgradeExpStar {display:none; cursor:pointer; color:white}
-#upgradeManagerInfo, #upgradeTrainerInfo, #upgradeStarInfo {color:black; font-style:italic; font-size:14; visibility:hidden; position:absolute; margin-top:25; margin-left:-50; background-color:#dedede; padding:3}
-#upgradeManager:hover #upgradeManagerInfo {visibility:visible}
-#upgradeTrainer:hover #upgradeTrainerInfo {visibility:visible}
-#upgradeStar:hover #upgradeStarInfo {visibility:visible}
+#upgradeManager, #upgradeTrainer, #upgradePopStar, #upgradeExpStar {display:none; cursor:pointer; color:black; font-size:24}
+#managerInfo, #trainerInfo, #expPlayerInfo, #popPlayerInfo {display:none; font-size:14}
+#startSeason {box-shadow:3px 3px 3px #787878; border:1px solid #ababab; padding:6; display:none; width:500; text-align:center}
 
-#startSeason {border:2px dashed #ababab; padding:5; display:none; width:500; text-align:center}
+#statsTab, #optionsTab, #goalsTab, #rankTab {cursor:pointer; padding:3; background-color:#dedede; margin-right:0;}
+#statsTab {background-color:#8DCF8A}
+#statsTab:hover, #optionsTab:hover, #goalsTab:hover, #rankTab:hover {background-color:#8DCF8A}
+#stats {margin-top:4}
+#options, #goals, #rank {display:none; margin-top:6}
+#rankT td, #goals td{font-size:16}
 
 #deleteData {cursor:pointer}
 #resetConfirm {visibility:hidden; font-size:14; margin-top:-20}
