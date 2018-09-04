@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Type Master</title>
+<title>Ninja Typist</title>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="nt_style.css">
@@ -10,11 +10,12 @@
 
 <table border="0" width="1000" align="center" cellpadding="10" cellspacing="0">
 	<tr>
-		<td><b>NINJA TYPIST</b> <i class="fas fa-user-ninja"></i></td><td align="right"><span id="version">v0.1.0</span></td>
+		<td><b>NINJA TYPIST</b> <i class="fas fa-user-ninja"></i></td><td align="right"><span id="version">v0.2.0</span></td>
 	</tr>
-	<tr id="top">
+	
+	<tr id="top">		
 		<td>
-			<span style="background-color:#00A67C;color:white;padding:3">
+			<span id="beltSpan" style="background-color:#00A67C;color:white;padding:3;border:2px solid white">
 				Belt: <span id="belt">White</span> | Exp: <span id="totalExp">0</span>/<span id="nextExp">10</span>
 			</span>
 			&nbsp;&nbsp;
@@ -26,7 +27,7 @@
 			<div id="chest" onclick="openChest()">
 				Word Chest <span id="wordChestTotal">0</span>/10<br>
 				<div class="w3-light-grey">					
-					<div id="wordChest" style="height:4px;width:0%; background-color:#FFE740"></div>
+					<div id="wordChest" style="height:5px;width:0%; background-color:#FFE740"></div>
 				</div>
 			</div>
 		</td>
@@ -43,32 +44,42 @@
 		</td>	
 		<td width="250" id="right">
 		
-			<!-- LOG -->
-			<span id="title">Log:</span>
-			<div id="log">
-				Start typing to complete the word.
-			</div>
-			<hr>
-			
 			<!-- POWER UPS -->
 			<div id="powerUps">
 				<span id="title">Power Ups:</span>
-				<table cellpadding="5" cellspacing="0" border="1"><tr>
+				<table cellpadding="8" cellspacing="0" border="1"><tr>
 					<td><span id="puMoney" class="w3-tooltip">$
 						<span id="puTooltip" style="position:absolute;left:0;top:18px" class="w3-text w3-tag">Increase $ earned</span>
 					</span></td>
-					<td><span id="puExp">X</span></td>
-					<td><span id="puBonus">B</span></td>
+					<td><span id="puExp" class="w3-tooltip">X
+						<span id="puTooltip" style="position:absolute;left:0;top:18px" class="w3-text w3-tag">Increase Exp earned</span>
+					</span></td>
+					<td><span id="puBonus" class="w3-tooltip">B
+						<span id="puTooltip" style="position:absolute;left:0;top:18px" class="w3-text w3-tag">Increase Bonus chance</span>
+					</span></td>
 				</tr></table>
 			</div>
 			<hr>
 			
 			<!-- STATS -->
 			<span id="title">Stats:</span><br>
+			Total Characters: <span id="totalChar">0</span><br>
+			Total Words: <span id="totalWords">0</span><br>
 			Total Correct: <span id="totalCorrect">0</span><br>
 			Total Typos: <span id="totalTypos">0</span><br>
 			Accuracy: <span id="accuracy">0</span>%<br>
 			Word Streak: <span id="streak">0</span><br>
+			<hr>
+			
+			<!-- ACHIEVEMENTS -->
+			<span id="title">Achievements:</span><br>
+			10 Correct Words<br>
+			100 Correct Words<br>
+			1,000 Correct Words<br>
+			Open 1st Word Chest<br>
+			10 Word Streak<br>
+			25 Word Streak<br>
+			50 Word Streak<br>
 		</td>
 	</tr>
 	<tr>
@@ -82,7 +93,7 @@
 			<span onclick="document.getElementById('chestModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
 			<p>
 				Chest Contents:<br>
-				$15 | Keyboard Upgrade
+				$<span id="chestMoney">0</span>
 			</p>
 		</div>
 	</div>

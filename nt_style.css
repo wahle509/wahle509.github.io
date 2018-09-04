@@ -2,11 +2,12 @@
 #log {font-size:12; font-style:italic; margin-top:4}
 #right {font-size:14}
 #powerUps td span {padding:5px; color:#ababab}
-#puTooltip {font-size:12}
-#word {font-size:48}
+#puTooltip {font-size:10; width:150}
+#word {font-size:56; padding:4}
 #letters {font-size:28; padding:5}
 #letters-container {width:100px; border:1px solid #ababab; padding:10}
 #chest {width:200; padding:2px; cursor:default; text-align:left}
+#chestModal {text-align:center}
 #wordChest {margin-top:2}
 #info {color:#343434; font-size:10; font-style:italic}
 #title {font-weight: bold}	

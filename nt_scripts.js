@@ -1,21 +1,27 @@
-var words = ["SAW", "GET", "PAN", "LET", "MAN", "WIN", "CAR", "DOT", "HIM", "BUS", "JET", "YES", "WAS", "POP"];
+var words = ["SAW", "GET", "PAN", "LET", "MAN", "WIN", "CAR", "DOT", "HIM", "BUS", "JET", "YES", "WAS", "POP", "FAR", "NOW", "AXE", "AIR", "EYE", "IMP", "OLD", "USE", "OUT", "ZAP"];
 var letters = "";
 var totalLetters = 0;
 var currentWord = "";
 var pause = false;
 var width = 1;
 var wordChestTotal = 0;
+var totalChar = 0;
+var totalWords = 0;
 var totalCorrect = 0;
 var totalTypos = 0;
 var accuracy = 0;
 var wordStreak = 0;
 var totalMoney = 0;	
+var chestMoney = 0;
+var minCM = 10;
+var maxCM = 25;
 var earnCorrect = 1;
 var totalExperience = 0;
 var earnExp = 1;
 var nextExp = 10;
 var belt = "White";
 var wordChestAvail = false;
+var bonusActive = false;
 
 function start() {
 	//Show Random Word
@@ -34,6 +40,7 @@ function restart() {
 	
 	//Reset Display
 	document.getElementById("word").style.color = "black";
+	document.getElementById("word").style.backgroundColor = "white";
 	document.getElementById("letters").innerHTML = "";
 	document.getElementById("isCorrect").innerHTML = "&nbsp;";
 	document.getElementById("letters-container").style.backgroundColor = "white";
@@ -43,8 +50,9 @@ function restart() {
 	//Show New Random Word
 	var bonus = Math.floor(Math.random() * 101);
 	if (bonus >= 95) {
+		bonusActive = true;
 		currentWord = "HEX";
-		document.getElementById("word").style.color = "green";
+		document.getElementById("word").style.backgroundColor = "#FFFD40";
 		document.getElementById("info").innerHTML = "Bonus word ($x5)! 'To cast an evil spell upon'";
 	} else {
 		var len = words.length;
@@ -65,110 +73,49 @@ function check() {
 	}
 }
 
+//OPEN CHEST
 function openChest() {
 	if (wordChestAvail == true) {
 		document.getElementById("chestModal").style.display = 'block';
+		
+		//Get Money
+		var chestMoney = Math.floor(Math.random() * (maxCM-minCM+1)+minCM);
+		totalMoney += chestMoney;
+		document.getElementById("money").innerHTML = totalMoney;
+		document.getElementById("chestMoney").innerHTML = chestMoney;
+		
+		//RESET CHEST
+		wordChestAvail = false;
+		wordChestTotal = 0;
+		document.getElementById("wordChestTotal").innerHTML = wordChestTotal;
+		var elem = document.getElementById("wordChest");
+		width = 0;
+		elem.style.width = width + '%';
+		document.getElementById("chest").style.backgroundColor = "#5FD2B5";
+		document.getElementById("chest").style.cursor = "default";
 	}
 }
 
-//KEY DOWN EVENTS
+//KEY DOWN EVENT
 document.addEventListener("keydown", keyPressed, false);	
-function keyPressed(e) {
+function keyPressed(e) {	
 	if (e > 47) {var keyCode = e;} 
 	else {var keyCode = e.keyCode;}
-	
-	if (pause == true && keyCode == 32) {
-		restart();
-		return;
-	}
 		
 	if (totalLetters < 3) {
-		switch(keyCode) {
-			//rowQ
-			case 81: letters += "Q";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 87: letters += "W";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 69: letters += "E";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 82: letters += "R";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 84: letters += "T";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 89: letters += "Y";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 85: letters += "U";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 73: letters += "I";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 79: letters += "O";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 80: letters += "P";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			//rowA
-			case 65: letters += "A";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 83: letters += "S";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 68: letters += "D";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 70: letters += "F";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 71: letters += "G";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 72: letters += "H";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 74: letters += "J";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 75: letters += "K";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 76: letters += "L";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			//rowZ
-			case 90: letters += "Z";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 88: letters += "X";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 67: letters += "C";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 86: letters += "V";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 66: letters += "B";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 78: letters += "N";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-			case 77: letters += "M";
-				document.getElementById("letters").innerHTML = letters;
-				break;
-		}	
+		if (keyCode >= 65 && keyCode <= 90) {
+			totalChar ++;
+			document.getElementById("totalChar").innerHTML = totalChar;
+			letters += String.fromCharCode(keyCode)
+			document.getElementById('letters').innerHTML = letters
+		 } else {
+			 return;
+		 }
 
 		totalLetters += 1;			
 		if (totalLetters == 3) {
+			totalWords++;
+			document.getElementById("totalWords").innerHTML = totalWords;
 			pause = true;
 			checkWord();
 		}
@@ -194,10 +141,11 @@ function keyPressed(e) {
 				document.getElementById("nextExp").innerHTML = nextExp;
 				belt = "Yellow";
 				document.getElementById("belt").innerHTML = belt;
+				document.getElementById("beltSpan").style.borderColor = "yellow";
 			}
 			
 			//Increase Money
-			totalMoney += earnCorrect;
+			if (bonusActive == true) {totalMoney += earnCorrect * 5;} else {totalMoney += earnCorrect;}		
 			document.getElementById("money").innerHTML = totalMoney;
 			
 			//Increase Word Chest Bar
@@ -208,8 +156,9 @@ function keyPressed(e) {
 				wordChestTotal = 10;
 				document.getElementById("wordChestTotal").innerHTML = wordChestTotal;
 				var elem = document.getElementById("wordChest");
+				width = 100;
 				elem.style.width = width + '%';
-				document.getElementById("chest").style.backgroundColor = "#FFDF00";
+				document.getElementById("chest").style.backgroundColor = "#FFFD40";
 				document.getElementById("chest").style.cursor = "pointer";					
 			} else {
 				wordChestAvail = false;
@@ -228,7 +177,7 @@ function keyPressed(e) {
 			wordStreak = 0;
 			document.getElementById("streak").innerHTML = wordStreak;
 		}
-		document.getElementById("info").innerHTML = "Press Space for new word."
 		check();
+		setTimeout(restart, 500);
 	}		
 }
