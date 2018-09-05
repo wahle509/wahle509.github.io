@@ -1,4 +1,31 @@
-var words = ["SAW", "GET", "PAN", "LET", "MAN", "WIN", "CAR", "DOT", "HIM", "BUS", "JET", "YES", "WAS", "POP", "FAR", "NOW", "AXE", "AIR", "EYE", "IMP", "OLD", "USE", "OUT", "ZAP"];
+var words = [
+	["SAW", false],
+	["GET", false],
+	["PAN", false],
+	["LET", false],
+	["MAN", false],
+	["WIN", false],
+	["CAR", false],
+	["DOT", false],
+	["HIM", false],
+	["BUS", false],
+	["JET", false],
+	["YES", false],
+	["WAS", false],
+	["POP", false],
+	["FAR", false],
+	["NOW", false],
+	["AXE", false],
+	["AIR", false],
+	["EYE", false],
+	["IMP", false],
+	["OLD", false],
+	["USE", false],
+	["OUT", false],
+	["ZAP", false]
+];
+var words4 = ["AJAR", "BLUR", "CASK", "DARK", "EVEN", "FOLD", "GONE", "HELD", "ISLE", "JOLT", "KILT", "LAMP", "MAIN", "NOPE", "OWED", "PAID", "QUIZ", "RUST", "STOP", "TENT", "USED", "VASE"]
+var wordArray = 1;
 var letters = "";
 var totalLetters = 0;
 var currentWord = "";
@@ -18,8 +45,10 @@ var maxCM = 25;
 var earnCorrect = 1;
 var totalExperience = 0;
 var earnExp = 1;
-var nextExp = 10;
-var belt = "White";
+var upExp = 0;
+var nextExp = [10, 25, 50, 100, 250, 500, 1000, 2500, 5000];
+var upBelt = 0;
+var currentBelt = ["White", "Yellow", "Orange", "Green", "Blue", "Purple", "Red", "Brown", "Black"];
 var wordChestAvail = false;
 var bonusActive = false;
 
@@ -27,7 +56,8 @@ function start() {
 	//Show Random Word
 	var len = words.length;
 	var word = Math.floor(Math.random() * len);
-	currentWord = words[word];
+	currentWord = words[word][0];
+	words[word][1] = true;
 	document.getElementById("word").innerHTML = currentWord;
 }
 
@@ -50,14 +80,28 @@ function restart() {
 	//Show New Random Word
 	var bonus = Math.floor(Math.random() * 101);
 	if (bonus >= 95) {
+		//BONUS WORD
 		bonusActive = true;
 		currentWord = "HEX";
 		document.getElementById("word").style.backgroundColor = "#FFFD40";
 		document.getElementById("info").innerHTML = "Bonus word ($x5)! 'To cast an evil spell upon'";
-	} else {
-		var len = words.length;
-		var word = Math.floor(Math.random() * len);
-		currentWord = words[word];
+	} else {		
+		do {
+			var len = words.length;
+			var word = Math.floor(Math.random() * len);			
+		} 
+		while (words[word][1] == true);
+		currentWord = words[word][0];
+		words[word][1] = true;
+		wordArray++;
+		if (wordArray == words.length) {
+			wordArray = 0;
+			var i = 0;
+			while (i < words.length) {
+				words[i][1] = false;
+				i++;
+			}
+		}
 	}		
 	
 	document.getElementById("word").innerHTML = currentWord;
@@ -134,14 +178,14 @@ function keyPressed(e) {
 			//Increase Experience
 			totalExperience += earnExp;
 			document.getElementById("totalExp").innerHTML = totalExperience;
-			if (totalExperience == nextExp) {
+			if (totalExperience == nextExp[upExp]) {
 				totalExperience = 0;
 				document.getElementById("totalExp").innerHTML = totalExperience;
-				nextExp *= 2.5;
-				document.getElementById("nextExp").innerHTML = nextExp;
-				belt = "Yellow";
-				document.getElementById("belt").innerHTML = belt;
-				document.getElementById("beltSpan").style.borderColor = "yellow";
+				upExp++;
+				document.getElementById("nextExp").innerHTML = nextExp[upExp];
+				upBelt++;
+				document.getElementById("belt").innerHTML = currentBelt[upBelt];
+				document.getElementById("beltSpan").style.borderColor = currentBelt[upBelt];
 			}
 			
 			//Increase Money

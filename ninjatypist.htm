@@ -5,6 +5,30 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="nt_style.css">
 <script src="nt_scripts.js"></script>
+<script>
+document.onkeydown = function (event) {
+	
+	if (!event) { /* This will happen in IE */
+		event = window.event;
+	}
+		
+	var keyCode = event.keyCode;
+	
+	if (keyCode == 8 &&
+		((event.target || event.srcElement).tagName != "TEXTAREA") && 
+		((event.target || event.srcElement).tagName != "INPUT")) { 
+		
+		if (navigator.userAgent.toLowerCase().indexOf("msie") == -1) {
+			event.stopPropagation();
+		} else {
+			alert("prevented");
+			event.returnValue = false;
+		}
+		
+		return false;
+	}
+};
+</script>
 </head>
 <body onLoad="start()">
 
@@ -25,7 +49,7 @@
 		</td>
 		<td align="right">
 			<div id="chest" onclick="openChest()">
-				Word Chest <span id="wordChestTotal">0</span>/10<br>
+				Word Crate <span id="wordChestTotal">0</span>/10<br>
 				<div class="w3-light-grey">					
 					<div id="wordChest" style="height:5px;width:0%; background-color:#FFE740"></div>
 				</div>
@@ -46,8 +70,8 @@
 		
 			<!-- POWER UPS -->
 			<div id="powerUps">
-				<span id="title">Power Ups:</span>
-				<table cellpadding="8" cellspacing="0" border="1"><tr>
+				<span id="title">Power Ups:</span><br>
+				<table cellpadding="8" cellspacing="0" border="1" style="border-collapse:collapse;margin-top:2px"><tr>
 					<td><span id="puMoney" class="w3-tooltip">$
 						<span id="puTooltip" style="position:absolute;left:0;top:18px" class="w3-text w3-tag">Increase $ earned</span>
 					</span></td>
@@ -92,7 +116,7 @@
 		<div class="w3-container">
 			<span onclick="document.getElementById('chestModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
 			<p>
-				Chest Contents:<br>
+				Crate Contents:<br>
 				$<span id="chestMoney">0</span>
 			</p>
 		</div>
