@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="nt_style.css">
+<link href="favicon.ico" rel="icon" type="image/x-icon">
 <script src="nt_scripts.js"></script>
 <script>
 document.onkeydown = function (event) {
@@ -32,82 +33,118 @@ document.onkeydown = function (event) {
 </head>
 <body onLoad="start()">
 
-<table border="0" width="1000" align="center" cellpadding="10" cellspacing="0">
+<table border="0" width="1100" align="center" cellpadding="10" cellspacing="0">
 	<tr>
-		<td><b>NINJA TYPIST</b> <i class="fas fa-user-ninja"></i></td><td align="right"><span id="version">v0.2.1</span></td>
+		<td colspan="2"><b>NINJA TYPIST</b> <i class="fas fa-user-ninja"></i></td><td align="right"><span id="version">v0.3.0</span></td>
 	</tr>
 	
 	<tr id="top">		
-		<td>
-			<span id="beltSpan" style="background-color:#00A67C;color:white;padding:3;border:2px solid white">
+		<td colspan="2">
+			<span id="beltSpan" style="background-color:#992626;color:white;padding:3;border:3px solid white">
 				Belt: <span id="belt">White</span> | Exp: <span id="totalExp">0</span>/<span id="nextExp">10</span>
 			</span>
 			&nbsp;&nbsp;
-			<span style="background-color:#00A67C;color:white;padding:3">
-				Money: $<span id="money">0</span> ($<span id="moneySec">0</span>/s)
+			<span style="background-color:#992626;color:white;padding:3">
+				Money: $<span id="money">0</span>
 			</span>
 		</td>
 		<td align="right">
 			<div id="chest" onclick="openChest()">
 				Word Crate <span id="wordChestTotal">0</span>/10<br>
-				<div class="w3-light-grey">					
-					<div id="wordChest" style="height:5px;width:0%; background-color:#FFE740"></div>
+				<div class="w3-white">					
+					<div id="wordChest" style="height:6px;width:0%; background-color:#994545"></div>
 				</div>
 			</div>
 		</td>
 	</tr>
 	<tr>
-		<td align="center" id="main">
+		<td id="left" valign="top" width="250" style="border-right:1px solid #787878">
+			<span id="title">Ninja:</span><br>
+			<table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-size:13">
+			<tr><td>Belt:</td> <td align="right">White</td></tr>
+			<tr><td>Health:</td> <td align="right">100</td></tr>
+			<tr><td>Stength:</td> <td align="right">Level 1</td></tr>
+			<tr><td>Defense:</td> <td align="right">Level 1</td></tr>
+			</table>
+		</td>
+		<td valign="top" align="center" id="main" width="600">
 			<!-- MAIN -->
 			<span id="word">&nbsp;</span>
 			<p>
 			<div id="letters-container"><span id="letters">&nbsp;</span></div>
 			<p>
 			<span id="isCorrect">&nbsp;</span><br>
-			<span id="info"></span>
-		</td>	
-		<td width="250" id="right">
-		
-			<!-- POWER UPS -->
-			<div id="powerUps">
-				<span id="title">Power Ups:</span><br>
-				<table cellpadding="8" cellspacing="0" border="1" style="border-collapse:collapse;margin-top:2px"><tr>
-					<td><span id="puMoney" class="w3-tooltip">$
-						<span id="puTooltip" style="position:absolute;left:0;top:18px" class="w3-text w3-tag">Increase $ earned</span>
-					</span></td>
-					<td><span id="puExp" class="w3-tooltip">X
-						<span id="puTooltip" style="position:absolute;left:0;top:18px" class="w3-text w3-tag">Increase Exp earned</span>
-					</span></td>
-					<td><span id="puBonus" class="w3-tooltip">B
-						<span id="puTooltip" style="position:absolute;left:0;top:18px" class="w3-text w3-tag">Increase Bonus chance</span>
-					</span></td>
-				</tr></table>
+			<span id="info">&nbsp;</span>
+			<hr>
+			<!-- BATTLE -->
+			<span id="battle" onclick="battle()">Battle! $10</span>
+			<p>
+			<div id="battleArea">
+			<table width="100%" style="font-size:13"><tr>
+			<td width="250">
+				You<br>
+				<div class="w3-green">					
+					<div id="ninjaHealth" style="height:5px;width:0%; background-color:#994545"></div>
+				</div>
+			</td>
+			<td align="center">vs.</td>
+			<td width="250" align="right">
+				Enemy 1<br>
+				<div class="w3-green">					
+					<div id="enemyHealth" style="height:5px;width:0%; background-color:#994545"></div>
+				</div>
+			</td>
+			</tr></table>
 			</div>
+		</td>	
+		<td width="250" id="right" style="border-left:1px solid #787878">
+		
+			<!-- ANNOUNCEMENTS -->
+			<span id="announcement">
+				<span id="title">Announcements:</span><br>
+				<span id="currentAnnouncement">Start typing to begin!</span>
+			</span>
 			<hr>
 			
 			<!-- STATS -->
-			<span id="title">Stats:</span><br>
-			Total Characters: <span id="totalChar">0</span><br>
-			Total Words: <span id="totalWords">0</span><br>
-			Total Correct: <span id="totalCorrect">0</span><br>
-			Total Typos: <span id="totalTypos">0</span><br>
-			Accuracy: <span id="accuracy">0</span>%<br>
-			Word Streak: <span id="streak">0</span><br>
+			<span id="title">Game Stats:</span><br>
+			<table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-size:13">
+			<tr><td>Correct Word:</td> <td align="right">$<span id="moneyPerWord">1</span> | <span id="expPerWord">1</span> Exp</td></tr>
+			</table>
+			<p>
+
+			<span id="title">Typing Stats:</span><br>
+			<table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-size:13">
+			<tr><td>Total Characters:</td> <td align="right"><span id="totalChar">0</span></td></tr>
+			<tr><td>Total Words:</td> <td align="right"><span id="totalWords">0</span></td></tr>
+			<tr><td>Total Correct:</td> <td align="right"><span id="totalCorrect">0</span></td></tr>
+			<tr><td>Total Typos:</td> <td align="right"><span id="totalTypos">0</span></td></tr>
+			<tr><td>Accuracy:</td> <td align="right"><span id="accuracy">0</span>%</td></tr>
+			<tr><td>Word Streak:</td> <td align="right"><span id="streak">0</span></td></tr>
+			</table>
+			<p>
+			
+			<span id="title">Battle Stats:</span><br>
+			<table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-size:13">
+			<tr><td>Battles Won:</td> <td align="right">0</td></tr>
+			</table>
 			<hr>
 			
 			<!-- ACHIEVEMENTS -->
 			<span id="title">Achievements:</span><br>
-			10 Correct Words<br>
+			<div id="achievements">
+			<span id="10correct">10 Correct Words</span><br>
 			100 Correct Words<br>
 			1,000 Correct Words<br>
-			Open 1st Word Chest<br>
-			10 Word Streak<br>
+			<span id="crateOpen">Open 1st Word Crate</span><br>
+			<span id="10streak">10 Word Streak</span><br>
 			25 Word Streak<br>
 			50 Word Streak<br>
+			</div>
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2"><hr id="bottom"></td>
+		<td colspan="3"><hr id="bottom"></td>
 	</tr>
 </table>
 
